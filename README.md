@@ -27,6 +27,11 @@
 
 * A view of previously recorded __video sequences__
 
+#### Video Specification
+
+* 15 fps
+* __Drawn animation__ shall have alpha channel
+* __Drawn animation__ to to 2/3 mins long
 
 
 
