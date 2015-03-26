@@ -25,6 +25,12 @@ void ofApp::setup () {
     shouldSave = false;
 
     onionskin.init( onionSkinSettings );
+
+    taskRunner.startThread( true, false ); 
+}
+
+void ofApp::exit () {
+    taskRunner.stopThread();
 }
 
 void ofApp::update () {
@@ -38,15 +44,14 @@ void ofApp::draw () {
 
     if ( shouldSave ) {
 
-        string cmd = "gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=1 caps=\"image/png,framerate=\\(fraction\\)12/1\" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
+        string makeVideo = "gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=1 caps=\"image/png,framerate=\\(fraction\\)12/1\" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
 
-        ofLogNotice() << cmd;
+        taskRunner.addCommand( makeVideo );
 
-        system( cmd.c_str() );
+        string deletePngs = "rm " + ofToDataPath( ofToString( sequenceStartTime ) + "-*.png" );
 
-        cmd = "rm " + ofToDataPath( "*.png" );
+        taskRunner.addCommand( deletePngs );
 
-        system( cmd.c_str() );
 
         // Reset counters
         sequenceStartTime = ofGetUnixTime();
@@ -66,8 +71,8 @@ void ofApp::draw () {
         onionskin.getCurrentFboPtr()->end();
 
         // Save to disk
-        ofPixels pix;  
-        onionskin.getCurrentFboPtr()->readToPixels( pix );  
+        ofPixels pix;
+        onionskin.getCurrentFboPtr()->readToPixels( pix );
         ofSaveImage( pix, ofToString( sequenceStartTime ) + "-" + ofToString( ++frameCounter ) + ".png" );
         
         onionskin.renderAll();

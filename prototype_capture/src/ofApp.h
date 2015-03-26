@@ -3,10 +3,12 @@
 #include "ofMain.h"
 #include "ofxRPiCameraVideoGrabber.h"
 #include "OnionSkinRingBuffer.h"
+#include "ThreadedRunCommand.h"
 
 class ofApp : public ofBaseApp {
  public:
     void setup ();
+    void exit ();
     void update ();
     void draw ();
 		
@@ -20,6 +22,8 @@ class ofApp : public ofBaseApp {
     OnionSkinRingBufferSettings onionSkinSettings;
 
     OnionSkinRingBuffer onionskin;
+
+    ThreadedRunCommand taskRunner;
 
     bool shouldCaptureFrame;
     bool shouldDrawOnionSkin;

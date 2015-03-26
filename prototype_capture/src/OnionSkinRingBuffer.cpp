@@ -76,8 +76,6 @@ void OnionSkinRingBuffer::renderAll () {
         if ( frameIdx < 0 ) {
             frameIdx += settings.numberFrames;
         }
-
-        ofLogNotice() << "Rendering: " << ofToString( frameIdx ) << " with alpha " << ofToString( alpha );
         
         ofEnableBlendMode( settings.blendMode );
         fbos[ frameIdx ]->draw( 0, 0, settings.width, settings.height );
