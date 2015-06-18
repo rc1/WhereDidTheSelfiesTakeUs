@@ -5,20 +5,26 @@ void ofApp::setup () {
 
     // ofSetFullscreen( true );
 
+#ifdef OF_TARGET_LINUXARMV7L
     // Camera Settings
-    omxCameraSettings.width = 1024; // default 1280
-    omxCameraSettings.height = 768; // default 720
+    omxCameraSettings.width = SELFIES_WIDTH; // default 1280
+    omxCameraSettings.height = SELFIES_HEIGHT; // default 720
     omxCameraSettings.isUsingTexture = true; //default true
     omxCameraSettings.doRecording = false;   //default false
 
     // Create the grabber
     videoGrabber.setup( omxCameraSettings );
+#else
+    videoGrabber.setDeviceID( 0 );
+    videoGrabber.initGrabber( SELFIES_WIDTH, SELFIES_HEIGHT );
+#endif
 
     // Onion Skin
     onionSkinSettings.numberFrames = 12 * 3;
     onionSkinSettings.show = 4;
-    onionSkinSettings.width = omxCameraSettings.width / 4;
-    onionSkinSettings.height = omxCameraSettings.height / 4;
+    onionSkinSettings.width = SELFIES_WIDTH / 4;
+    onionSkinSettings.height = SELFIES_HEIGHT / 4;
+    
 
     shouldCaptureFrame = false;
     shouldDrawOnionSkin = true;
@@ -34,16 +40,18 @@ void ofApp::exit () {
 }
 
 void ofApp::update () {
-
+    videoGrabber.update();
 }
 
 void ofApp::draw () {
-
+    
     static int frameCounter = 0;
     static int sequenceStartTime = ofGetUnixTime();
 
+    
     if ( shouldSave ) {
 
+        #ifdef OF_TARGET_LINUXARMV7L
         string makeVideo = "gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=1 caps=\"image/png,framerate=\\(fraction\\)12/1\" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
 
         taskRunner.addCommand( makeVideo );
@@ -51,13 +59,14 @@ void ofApp::draw () {
         string deletePngs = "rm " + ofToDataPath( ofToString( sequenceStartTime ) + "-*.png" );
 
         taskRunner.addCommand( deletePngs );
-
+        #endif
 
         // Reset counters
         sequenceStartTime = ofGetUnixTime();
         frameCounter = 0;
         shouldSave = false;
     }
+    
 
     // Capture a new frame to the buffer
     if ( shouldCaptureFrame ) {
@@ -65,8 +74,8 @@ void ofApp::draw () {
         onionskin.getCurrentFboPtr()->begin();
         ofClear( 0, 0, 0, 0 );
         ofPushMatrix();
-        ofScale( float( onionSkinSettings.width) / float( omxCameraSettings.width ), float( onionSkinSettings.height ) / float( omxCameraSettings.height ), 1.0 );
-        videoGrabber.draw();
+        ofScale( float( SELFIES_WIDTH ) / float( SELFIES_WIDTH ), float( SELFIES_HEIGHT ) / float( SELFIES_HEIGHT ), 1.0 );
+        videoGrabber.draw( 0, 0 );
         ofPopMatrix();
         onionskin.getCurrentFboPtr()->end();
 
@@ -80,9 +89,10 @@ void ofApp::draw () {
         shouldCaptureFrame = false;
     }
     
-    videoGrabber.draw();
+    videoGrabber.draw( 0, 0 );
+    
     if ( shouldDrawOnionSkin ) {
-        onionskin.layer.draw( 0, 0, omxCameraSettings.width, omxCameraSettings.height );
+        onionskin.layer.draw( 0, 0, SELFIES_WIDTH, SELFIES_HEIGHT );
     }
 
     static int currentFrame = 0;
