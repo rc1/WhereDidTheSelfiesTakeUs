@@ -65,6 +65,7 @@ void ofApp::draw () {
         makeVideo = "gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=0 caps=\"image/png,framerate=\\(fraction\\)12/1\" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
 #else
         // See INSTALL.md on the mac if this is not working
+        // Note: index is appears to be 0 on OSX
         makeVideo = "/usr/local/bin/gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=0 caps=\"image/png,framerate=\\(fraction\\)12/1\" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
         ofLogNotice() << makeVideo;
 #endif
@@ -75,7 +76,7 @@ void ofApp::draw () {
         taskRunner.addCommand( deletePngs );
 
         // Reset counters
-        sequenceStartTime = ofGetUnixTime();    
+        sequenceStartTime = ofGetUnixTime();
         frameCounter = 0;
         shouldSave = false;
     }
@@ -100,8 +101,9 @@ void ofApp::draw () {
         // Save to disk
         // Why are we saving the onion skin and not the video images here?
         ofPixels pix;
+        pix.allocate( SELFIES_WIDTH, SELFIES_HEIGHT, 3 );
         //onionskin.getCurrentFboPtr()->readToPixels( pix );
-        videoGrabber.getTextureReference().readToPixels( pix );
+        videoGrabber.getTextureReference().readToPixels( pix ); // working on OSX. Not working on
         ofSaveImage( pix, ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png" );
         
         // Add a frame number
