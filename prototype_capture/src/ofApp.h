@@ -28,6 +28,8 @@ class ofApp : public ofBaseApp {
     #else
     ofVideoGrabber videoGrabber;
     #endif
+
+    ofFbo frameFbo;
     
     OnionSkinRingBufferSettings onionSkinSettings;
     OnionSkinRingBuffer onionskin;

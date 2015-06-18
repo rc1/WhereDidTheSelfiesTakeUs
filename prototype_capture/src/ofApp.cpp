@@ -36,6 +36,8 @@ void ofApp::setup () {
     shouldDrawHUD = true;
 #endif
 
+    frameFbo.allocate( SELFIES_WIDTH, SELFIES_HEIGHT, GL_RGB );
+
     onionskin.init( onionSkinSettings );
 
     taskRunner.startThread( true, false ); 
@@ -56,7 +58,15 @@ void ofApp::draw () {
     static int frameCounter = 0;
     static int sequenceStartTime = ofGetUnixTime();
 
-    
+    frameFbo.begin();
+#ifdef TARGET_LINUX_ARM
+    videoGrabber.draw();
+#else
+    videoGrabber.draw( 0, 0 );
+#endif
+    frameFbo.end();
+    frameFbo.draw( 0, 0 );
+
     if ( shouldSave ) {
         
         // Run a gst pipeline to make the video
@@ -72,8 +82,8 @@ void ofApp::draw () {
         taskRunner.addCommand( makeVideo );
 
         // Delete the files
-        string deletePngs = "rm " + ofToDataPath( ofToString( sequenceStartTime ) + "-*.png" );
-        taskRunner.addCommand( deletePngs );
+        // string deletePngs = "rm " + ofToDataPath( ofToString( sequenceStartTime ) + "-*.png" );
+        // taskRunner.addCommand( deletePngs );
 
         // Reset counters
         sequenceStartTime = ofGetUnixTime();
@@ -89,11 +99,7 @@ void ofApp::draw () {
         ofClear( 0, 0, 0, 0 );
         ofPushMatrix();
         ofScale( float( onionskin.settings.width ) / float( SELFIES_WIDTH ), float( onionskin.settings.height ) / float( SELFIES_HEIGHT ), 1.0 );
-        #ifdef TARGET_LINUX_ARM
-        videoGrabber.draw();
-        #else
-        videoGrabber.draw( 0, 0 );
-        #endif
+        frameFbo.draw( 0, 0 );
         
         ofPopMatrix();
         onionskin.getCurrentFboPtr()->end();
@@ -101,25 +107,14 @@ void ofApp::draw () {
         // Save to disk
         // Why are we saving the onion skin and not the video images here?
         ofPixels pix;
-        pix.allocate( SELFIES_WIDTH, SELFIES_HEIGHT, 3 );
-        //onionskin.getCurrentFboPtr()->readToPixels( pix );
-        videoGrabber.getTextureReference().readToPixels( pix ); // working on OSX. Not working on
-        ofSaveImage( pix, ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png" );
-        
-        // Add a frame number
-        
+        frameFbo.readToPixels( pix );
+        //ofSaveImage( pix, ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png" );
         
         // Draw the onion skin
         onionskin.renderAll();
         onionskin.next();
         shouldCaptureFrame = false;
     }
-
-    #ifdef TARGET_LINUX_ARM
-    videoGrabber.draw();
-    #else
-    videoGrabber.draw( 0, 0 );
-    #endif
     
     if ( shouldDrawOnionSkin ) {
         onionskin.layer.draw( 0, 0, SELFIES_WIDTH, SELFIES_HEIGHT );
@@ -136,6 +131,8 @@ void ofApp::draw () {
     
     
     onionskin.fbos[ currentFrame ]->draw( 20, 20, ofGetWidth() * 0.2, ofGetHeight() * 0.2 );
+
+    videoGrabber.getTextureReference().draw( 200, 200 );
     
     if ( shouldDrawHUD ) {
         ofDrawBitmapStringHighlight( "[0-5] Onion Skin Blend", ofPoint( 200, 20 ) );
