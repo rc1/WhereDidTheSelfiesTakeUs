@@ -7,8 +7,8 @@
 #include "ofxRPiCameraVideoGrabber.h"
 #endif
 
-#define SELFIES_HEIGHT 768
-#define SELFIES_WIDTH 1024
+#define SELFIES_HEIGHT 460
+#define SELFIES_WIDTH 800
 
 class ofApp : public ofBaseApp {
  public:

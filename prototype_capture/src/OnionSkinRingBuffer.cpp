@@ -4,8 +4,8 @@
 
 OnionSkinRingBufferSettings::OnionSkinRingBufferSettings () {
     numberFrames = 1;
-    width = 400;
-    height = 400;
+    width = 800;
+    height = 480;
     blendMode = OF_BLENDMODE_ALPHA;
     show = 4;
 }
