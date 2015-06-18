@@ -3,7 +3,7 @@
 #include "ofMain.h"
 #include "OnionSkinRingBuffer.h"
 #include "ThreadedRunCommand.h"
-#ifdef OF_TARGET_LINUXARMV7L
+#ifdef TARGET_LINUX_ARM
 #include "ofxRPiCameraVideoGrabber.h"
 #endif
 
@@ -22,7 +22,7 @@ class ofApp : public ofBaseApp {
     void windowResized ( int w, int h);
     void gotMessage ( ofMessage msg );
 
-    #ifdef OF_TARGET_LINUXARMV7L
+    #ifdef TARGET_LINUX_ARM
     ofxRPiCameraVideoGrabber videoGrabber;
     OMXCameraSettings omxCameraSettings;
     #else

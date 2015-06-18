@@ -5,7 +5,8 @@ void ofApp::setup () {
 
     // ofSetFullscreen( true );
 
-#ifdef OF_TARGET_LINUXARMV7L
+#ifdef TARGET_LINUX_ARM
+    ofLogNotice() << "Using OMX Camera (I am a raspberry pi)" << endl;
     // Camera Settings
     omxCameraSettings.width = SELFIES_WIDTH; // default 1280
     omxCameraSettings.height = SELFIES_HEIGHT; // default 720
@@ -15,6 +16,7 @@ void ofApp::setup () {
     // Create the grabber
     videoGrabber.setup( omxCameraSettings );
 #else
+    ofLogNotice() << "Using video grabber (I am a NOT raspberry pi)" << endl;
     videoGrabber.setDeviceID( 0 );
     videoGrabber.initGrabber( SELFIES_WIDTH, SELFIES_HEIGHT );
 #endif
@@ -40,7 +42,9 @@ void ofApp::exit () {
 }
 
 void ofApp::update () {
+    #ifndef TARGET_LINUX_ARM
     videoGrabber.update();
+    #endif
 }
 
 void ofApp::draw () {
@@ -51,7 +55,7 @@ void ofApp::draw () {
     
     if ( shouldSave ) {
 
-        #ifdef OF_TARGET_LINUXARMV7L
+        #ifdef TARGET_LINUX_ARM
         string makeVideo = "gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=1 caps=\"image/png,framerate=\\(fraction\\)12/1\" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
 
         taskRunner.addCommand( makeVideo );
@@ -75,7 +79,12 @@ void ofApp::draw () {
         ofClear( 0, 0, 0, 0 );
         ofPushMatrix();
         ofScale( float( SELFIES_WIDTH ) / float( SELFIES_WIDTH ), float( SELFIES_HEIGHT ) / float( SELFIES_HEIGHT ), 1.0 );
+        #ifdef TARGET_LINUX_ARM
+        videoGrabber.draw();
+        #else
         videoGrabber.draw( 0, 0 );
+        #endif
+        
         ofPopMatrix();
         onionskin.getCurrentFboPtr()->end();
 
@@ -88,8 +97,12 @@ void ofApp::draw () {
         onionskin.next();
         shouldCaptureFrame = false;
     }
-    
+
+    #ifdef TARGET_LINUX_ARM
+    videoGrabber.draw();
+    #else
     videoGrabber.draw( 0, 0 );
+    #endif
     
     if ( shouldDrawOnionSkin ) {
         onionskin.layer.draw( 0, 0, SELFIES_WIDTH, SELFIES_HEIGHT );
