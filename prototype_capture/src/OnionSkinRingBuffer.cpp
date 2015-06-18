@@ -27,6 +27,7 @@ void OnionSkinRingBuffer::init ( OnionSkinRingBufferSettings settings ) {
     this->settings = settings;
 
     layer.allocate( settings.width, settings.height, GL_RGBA );
+    ofLogNotice() << "Allocated Onionskin Buffer with " << ofToString( settings.width ) << "x" << ofToString( settings.height ) << "px";
 
     // Create the Fbos with the same
     for ( int i=0; i < settings.numberFrames; ++i ) {
@@ -57,7 +58,7 @@ void OnionSkinRingBuffer::renderAll () {
     if ( !hasRun ) {
         for ( int i=0; i < settings.numberFrames; ++i ) {
             fbos[ i ]->begin();
-            ofClear( 0, 0, 0, 0 );
+            ofClear( 0, 0, 0, 255 );
             fbos[ i ]->end();
         }
         hasRun = true;

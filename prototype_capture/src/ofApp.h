@@ -37,4 +37,5 @@ class ofApp : public ofBaseApp {
     bool shouldCaptureFrame;
     bool shouldDrawOnionSkin;
     bool shouldSave;
+    bool shouldDrawHUD;
 };

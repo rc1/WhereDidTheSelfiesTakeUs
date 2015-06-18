@@ -65,6 +65,22 @@
 		917E66F21B33082D0003D717 /* ThreadedRunCommand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadedRunCommand.cpp; sourceTree = "<group>"; };
 		917E66F31B33082D0003D717 /* OnionSkinRingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnionSkinRingBuffer.h; sourceTree = "<group>"; };
 		917E66F41B33082D0003D717 /* OnionSkinRingBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnionSkinRingBuffer.cpp; sourceTree = "<group>"; };
+		91E655B41B331EEE00374359 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		91E655B51B331EEE00374359 /* BaseEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BaseEngine.cpp; sourceTree = "<group>"; };
+		91E655B61B331EEE00374359 /* BaseEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseEngine.h; sourceTree = "<group>"; };
+		91E655B71B331EEE00374359 /* ImageFilterCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageFilterCollection.h; sourceTree = "<group>"; };
+		91E655B81B331EEE00374359 /* NonTextureEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NonTextureEngine.cpp; sourceTree = "<group>"; };
+		91E655B91B331EEE00374359 /* NonTextureEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NonTextureEngine.h; sourceTree = "<group>"; };
+		91E655BA1B331EEE00374359 /* ofxRPiCameraVideoGrabber.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxRPiCameraVideoGrabber.cpp; sourceTree = "<group>"; };
+		91E655BB1B331EEE00374359 /* ofxRPiCameraVideoGrabber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxRPiCameraVideoGrabber.h; sourceTree = "<group>"; };
+		91E655BC1B331EEE00374359 /* OMX_Maps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMX_Maps.h; sourceTree = "<group>"; };
+		91E655BD1B331EEE00374359 /* OMXCameraSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMXCameraSettings.h; sourceTree = "<group>"; };
+		91E655BE1B331EEE00374359 /* OMXCameraUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OMXCameraUtils.cpp; sourceTree = "<group>"; };
+		91E655BF1B331EEE00374359 /* OMXCameraUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMXCameraUtils.h; sourceTree = "<group>"; };
+		91E655C01B331EEE00374359 /* TerminalListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TerminalListener.h; sourceTree = "<group>"; };
+		91E655C11B331EEE00374359 /* TextureEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextureEngine.cpp; sourceTree = "<group>"; };
+		91E655C21B331EEE00374359 /* TextureEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextureEngine.h; sourceTree = "<group>"; };
+		91E655C31B3324F600374359 /* INSTALL.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = INSTALL.md; sourceTree = SOURCE_ROOT; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -117,9 +133,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		91E655B31B331EEE00374359 /* ofxRPiVideoGrabber */ = {
+			isa = PBXGroup;
+			children = (
+				91E655B41B331EEE00374359 /* .gitignore */,
+				91E655B51B331EEE00374359 /* BaseEngine.cpp */,
+				91E655B61B331EEE00374359 /* BaseEngine.h */,
+				91E655B71B331EEE00374359 /* ImageFilterCollection.h */,
+				91E655B81B331EEE00374359 /* NonTextureEngine.cpp */,
+				91E655B91B331EEE00374359 /* NonTextureEngine.h */,
+				91E655BA1B331EEE00374359 /* ofxRPiCameraVideoGrabber.cpp */,
+				91E655BB1B331EEE00374359 /* ofxRPiCameraVideoGrabber.h */,
+				91E655BC1B331EEE00374359 /* OMX_Maps.h */,
+				91E655BD1B331EEE00374359 /* OMXCameraSettings.h */,
+				91E655BE1B331EEE00374359 /* OMXCameraUtils.cpp */,
+				91E655BF1B331EEE00374359 /* OMXCameraUtils.h */,
+				91E655C01B331EEE00374359 /* TerminalListener.h */,
+				91E655C11B331EEE00374359 /* TextureEngine.cpp */,
+				91E655C21B331EEE00374359 /* TextureEngine.h */,
+			);
+			name = ofxRPiVideoGrabber;
+			path = ../addons/ofxRPiCameraVideoGrabber/src;
+			sourceTree = "<group>";
+		};
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				91E655B31B331EEE00374359 /* ofxRPiVideoGrabber */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -193,6 +233,7 @@
 				917E66F21B33082D0003D717 /* ThreadedRunCommand.cpp */,
 				917E66F31B33082D0003D717 /* OnionSkinRingBuffer.h */,
 				917E66F41B33082D0003D717 /* OnionSkinRingBuffer.cpp */,
+				91E655C31B3324F600374359 /* INSTALL.md */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;

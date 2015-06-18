@@ -32,7 +32,6 @@ class OnionSkinRingBuffer {
 
     // Settings
     OnionSkinRingBufferSettings settings;
-
     
     // Frames
     vector< OnionSkinFboPtr > fbos;

@@ -31,6 +31,10 @@ void ofApp::setup () {
     shouldCaptureFrame = false;
     shouldDrawOnionSkin = true;
     shouldSave = false;
+    shouldDrawHUD = false;
+#ifndef TARGET_LINUX_ARM
+    shouldDrawHUD = true;
+#endif
 
     onionskin.init( onionSkinSettings );
 
@@ -54,16 +58,21 @@ void ofApp::draw () {
 
     
     if ( shouldSave ) {
-
-        #ifdef TARGET_LINUX_ARM
-        string makeVideo = "gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=1 caps=\"image/png,framerate=\\(fraction\\)12/1\" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
-
+        
+        // Run a gst pipeline to make the video
+        string makeVideo;
+#ifdef TARGET_LINUX_ARM
+        makeVideo = "gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=1 caps=\"image/png,framerate=\\(fraction\\)12/1\" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
+#else
+        // See INSTALL.md on the mac if this is not working
+        makeVideo = "/usr/local/bin/gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=1 caps=\"image/png,framerate=\\(fraction\\)12/1\" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
+        ofLogNotice() << makeVideo;
+#endif
         taskRunner.addCommand( makeVideo );
 
+        // Delete the files
         string deletePngs = "rm " + ofToDataPath( ofToString( sequenceStartTime ) + "-*.png" );
-
         taskRunner.addCommand( deletePngs );
-        #endif
 
         // Reset counters
         sequenceStartTime = ofGetUnixTime();
@@ -78,7 +87,7 @@ void ofApp::draw () {
         onionskin.getCurrentFboPtr()->begin();
         ofClear( 0, 0, 0, 0 );
         ofPushMatrix();
-        ofScale( float( SELFIES_WIDTH ) / float( SELFIES_WIDTH ), float( SELFIES_HEIGHT ) / float( SELFIES_HEIGHT ), 1.0 );
+        ofScale( float( onionskin.settings.width ) / float( SELFIES_WIDTH ), float( onionskin.settings.height ) / float( SELFIES_HEIGHT ), 1.0 );
         #ifdef TARGET_LINUX_ARM
         videoGrabber.draw();
         #else
@@ -89,10 +98,16 @@ void ofApp::draw () {
         onionskin.getCurrentFboPtr()->end();
 
         // Save to disk
+        // Why are we saving the onion skin and not the video images here?
         ofPixels pix;
-        onionskin.getCurrentFboPtr()->readToPixels( pix );
-        ofSaveImage( pix, ofToString( sequenceStartTime ) + "-" + ofToString( ++frameCounter ) + ".png" );
+        //onionskin.getCurrentFboPtr()->readToPixels( pix );
+        videoGrabber.getTextureReference().readToPixels( pix );
+        ofSaveImage( pix, ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png" );
         
+        // Add a frame number
+        
+        
+        // Draw the onion skin
         onionskin.renderAll();
         onionskin.next();
         shouldCaptureFrame = false;
@@ -117,12 +132,18 @@ void ofApp::draw () {
         lastUpdate = ofGetElapsedTimef();
     }
     
-    onionskin.fbos[ currentFrame ]->draw( 0, 0, ofGetWidth() * 0.2, ofGetHeight() * 0.2 );
     
+    onionskin.fbos[ currentFrame ]->draw( 20, 20, ofGetWidth() * 0.2, ofGetHeight() * 0.2 );
+    
+    if ( shouldDrawHUD ) {
+        ofDrawBitmapStringHighlight( "[0-5] Onion Skin Blend", ofPoint( 200, 20 ) );
+        ofDrawBitmapStringHighlight( "[o] Toggle Onion Skin", ofPoint( 200, 40 ) );
+        ofDrawBitmapStringHighlight( "[space] Take Frame", ofPoint( 200, 60 ) );
+        ofDrawBitmapStringHighlight( "[s] Save video & new session", ofPoint( 200, 80 ) );
+        ofDrawBitmapStringHighlight( "[h] Show this display", ofPoint( 200, 100 ) );
+    }
  
-    // ofDrawBitmapStringHighlight( "[0-5] Onion Skin Blend", ofPoint( 20, 20 ) );
-    // ofDrawBitmapStringHighlight( "[o] Toggle Onion Skin", ofPoint( 20, 40 ) );
-    // ofDrawBitmapStringHighlight( "[space] Take Frame", ofPoint( 20, 40 ) );
+    
 }
 
 void ofApp::keyPressed ( int key ) {
@@ -153,6 +174,9 @@ void ofApp::keyPressed ( int key ) {
     }
     else if ( key == 's' ) {
         shouldSave = true;
+    }
+    else if ( key == 'h' ) {
+        shouldDrawHUD =! shouldDrawHUD;
     }
 }
 
