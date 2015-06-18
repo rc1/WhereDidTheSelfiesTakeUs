@@ -6,6 +6,7 @@
 #ifdef TARGET_LINUX_ARM
 #include "ofxRPiCameraVideoGrabber.h"
 #endif
+#include "ThreadedImageSaver.h"
 
 #define SELFIES_HEIGHT 460
 #define SELFIES_WIDTH 800
@@ -35,6 +36,8 @@ class ofApp : public ofBaseApp {
     OnionSkinRingBuffer onionskin;
 
     ThreadedRunCommand taskRunner;
+    
+    ThreadedImageSaver imageSaver;
 
     bool shouldCaptureFrame;
     bool shouldDrawOnionSkin;

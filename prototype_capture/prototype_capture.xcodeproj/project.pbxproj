@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		917E66F51B33082D0003D717 /* ThreadedRunCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 917E66F21B33082D0003D717 /* ThreadedRunCommand.cpp */; };
 		917E66F61B33082D0003D717 /* OnionSkinRingBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 917E66F41B33082D0003D717 /* OnionSkinRingBuffer.cpp */; };
+		91E655D11B333FBD00374359 /* ThreadedImageSaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91E655D01B333FBD00374359 /* ThreadedImageSaver.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -81,6 +82,8 @@
 		91E655C11B331EEE00374359 /* TextureEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextureEngine.cpp; sourceTree = "<group>"; };
 		91E655C21B331EEE00374359 /* TextureEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextureEngine.h; sourceTree = "<group>"; };
 		91E655C31B3324F600374359 /* INSTALL.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = INSTALL.md; sourceTree = SOURCE_ROOT; };
+		91E655CF1B333FBD00374359 /* ThreadedImageSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadedImageSaver.h; sourceTree = "<group>"; };
+		91E655D01B333FBD00374359 /* ThreadedImageSaver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadedImageSaver.cpp; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -229,6 +232,8 @@
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
+				91E655CF1B333FBD00374359 /* ThreadedImageSaver.h */,
+				91E655D01B333FBD00374359 /* ThreadedImageSaver.cpp */,
 				917E66F11B33082D0003D717 /* ThreadedRunCommand.h */,
 				917E66F21B33082D0003D717 /* ThreadedRunCommand.cpp */,
 				917E66F31B33082D0003D717 /* OnionSkinRingBuffer.h */,
@@ -337,6 +342,7 @@
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				917E66F61B33082D0003D717 /* OnionSkinRingBuffer.cpp in Sources */,
+				91E655D11B333FBD00374359 /* ThreadedImageSaver.cpp in Sources */,
 				917E66F51B33082D0003D717 /* ThreadedRunCommand.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -434,6 +440,11 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
+				HEADER_SEARCH_PATHS = (
+					"$(OF_CORE_HEADERS)",
+					src,
+					"$(SRCROOT)/include",
+				);
 				ICON = "$(ICON_NAME_DEBUG)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
@@ -501,6 +512,12 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_52)",
+					"$(PROJECT_DIR)/lib/osx",
+					"$(PROJECT_DIR)/lib/libuv/osx",
+				);
+				OTHER_LDFLAGS = (
+					"$(OF_CORE_LIBS)",
+					"\"$(SRCROOT)/lib/libuv/osx/libuv.a\"",
 				);
 				PRODUCT_NAME = prototype_captureDebug;
 				WRAPPER_EXTENSION = app;
@@ -519,6 +536,11 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../libs/glut/lib/osx\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
+				HEADER_SEARCH_PATHS = (
+					"$(OF_CORE_HEADERS)",
+					src,
+					"$(SRCROOT)/include",
+				);
 				ICON = "$(ICON_NAME_RELEASE)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
@@ -586,6 +608,12 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_49)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
+					"$(PROJECT_DIR)/lib/osx",
+					"$(PROJECT_DIR)/lib/libuv/osx",
+				);
+				OTHER_LDFLAGS = (
+					"$(OF_CORE_LIBS)",
+					"\"$(SRCROOT)/lib/libuv/osx/libuv.a\"",
 				);
 				PRODUCT_NAME = prototype_capture;
 				WRAPPER_EXTENSION = app;

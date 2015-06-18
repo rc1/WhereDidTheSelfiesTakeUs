@@ -27,7 +27,6 @@ void ofApp::setup () {
     onionSkinSettings.width = SELFIES_WIDTH / 4;
     onionSkinSettings.height = SELFIES_HEIGHT / 4;
     
-
     shouldCaptureFrame = false;
     shouldDrawOnionSkin = true;
     shouldSave = false;
@@ -39,6 +38,11 @@ void ofApp::setup () {
     frameFbo.allocate( SELFIES_WIDTH, SELFIES_HEIGHT, GL_RGB );
 
     onionskin.init( onionSkinSettings );
+    
+    if( !imageSaver.setup( SELFIES_WIDTH, SELFIES_HEIGHT, 20 ) ) { // last params is number of preallocated frames
+        printf( "error: cannot start the screen grab saver.\n" );
+        ::exit(EXIT_FAILURE);
+    }
 
     taskRunner.startThread( true, false ); 
 }
@@ -106,9 +110,13 @@ void ofApp::draw () {
 
         // Save to disk
         // Why are we saving the onion skin and not the video images here?
-        ofPixels pix;
-        frameFbo.readToPixels( pix );
+        //ofPixels pix;
+        //frameFbo.readToPixels( pix );
         //ofSaveImage( pix, ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png" );
+        
+        if ( !imageSaver.grabFbo( ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png", frameFbo ) ) {
+            ofLogError() << "Failed to grab screen. Maybe screen grab buffer is set to low";
+        }
         
         // Draw the onion skin
         onionskin.renderAll();
@@ -131,8 +139,6 @@ void ofApp::draw () {
     
     
     onionskin.fbos[ currentFrame ]->draw( 20, 20, ofGetWidth() * 0.2, ofGetHeight() * 0.2 );
-
-    videoGrabber.getTextureReference().draw( 200, 200 );
     
     if ( shouldDrawHUD ) {
         ofDrawBitmapStringHighlight( "[0-5] Onion Skin Blend", ofPoint( 200, 20 ) );
