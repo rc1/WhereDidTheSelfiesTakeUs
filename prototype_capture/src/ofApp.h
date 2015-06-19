@@ -3,10 +3,14 @@
 #include "ofMain.h"
 #include "OnionSkinRingBuffer.h"
 #include "ThreadedRunCommand.h"
+
 #ifdef TARGET_LINUX_ARM
 #include "ofxRPiCameraVideoGrabber.h"
 #endif
+
+#ifdef TARGET_OSX
 #include "ThreadedImageSaver.h"
+#endif
 
 #define SELFIES_HEIGHT 460
 #define SELFIES_WIDTH 800
@@ -36,8 +40,10 @@ class ofApp : public ofBaseApp {
     OnionSkinRingBuffer onionskin;
 
     ThreadedRunCommand taskRunner;
-    
+
+#ifdef TARGET_OSX
     ThreadedImageSaver imageSaver;
+#endif
 
     bool shouldCaptureFrame;
     bool shouldDrawOnionSkin;
