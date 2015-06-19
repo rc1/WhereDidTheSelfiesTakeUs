@@ -35,7 +35,7 @@ void ofApp::setup () {
     shouldDrawHUD = true;
 #endif
 
-    frameFbo.allocate( SELFIES_WIDTH, SELFIES_HEIGHT, GL_RGB, GL_RGBA32F );
+    frameFbo.allocate( SELFIES_WIDTH, SELFIES_HEIGHT, GL_RGB, OF_PIXELS_BGRA /*GL_RGBA32F*/ );
     
     videoPlayer.setPixelFormat( OF_PIXELS_RGBA );
     videoPlayer.loadMovie( "Overlay.mov" );
