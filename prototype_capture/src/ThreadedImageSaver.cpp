@@ -1,3 +1,4 @@
+#ifdef TARGET_OSX
 #include "ofMain.h"
 #include "ThreadedImageSaver.h"
 
@@ -241,3 +242,4 @@ bool ThreadedImageSaver::grabFbo(std::string filename, ofFbo fbo ) {
     return true;
 }
 
+#endif

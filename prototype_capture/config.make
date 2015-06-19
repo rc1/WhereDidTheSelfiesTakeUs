@@ -61,7 +61,8 @@ PROJECT_EXTERNAL_SOURCE_PATHS = ../addons/ofxRPiCameraVideoGrabber/src/
 #
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
-# PROJECT_EXCLUSIONS =
+PROJECT_EXCLUSIONS = $(PROJECT_ROOT)/src/ThreadedImageSaver.cpp 
+PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/src/ThreadedImageSaver.h
 
 ################################################################################
 # PROJECT LINKER FLAGS

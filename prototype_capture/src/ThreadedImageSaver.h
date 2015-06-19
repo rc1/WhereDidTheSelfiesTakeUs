@@ -1,6 +1,8 @@
 #ifndef ROXLU_WEBSYSTEM_SCREENGRAB_SAVER_H
 #define ROXLU_WEBSYSTEM_SCREENGRAB_SAVER_H
 
+#ifdef TARGET_OSX
+
 extern "C" {
 #  include <uv.h>
 }
@@ -71,4 +73,5 @@ inline GrabData* ThreadedImageSaver::getFreeGrabData() {
 
   return found;
 }
+#endif
 #endif
