@@ -9,7 +9,7 @@ extern "C" {
 
 #include <stdint.h>
 #include <string>
-#include <vector>tes
+#include <vector>
 
 
 #define GD_TYPE_NONE 0 /* default state */

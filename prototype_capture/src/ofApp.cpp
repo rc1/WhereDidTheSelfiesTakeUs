@@ -35,7 +35,12 @@ void ofApp::setup () {
     shouldDrawHUD = true;
 #endif
 
-    frameFbo.allocate( SELFIES_WIDTH, SELFIES_HEIGHT, GL_RGB );
+    frameFbo.allocate( SELFIES_WIDTH, SELFIES_HEIGHT, GL_RGB, GL_RGBA32F );
+    
+    videoPlayer.setPixelFormat( OF_PIXELS_RGBA );
+    videoPlayer.loadMovie( "Overlay.mov" );
+    videoPlayer.setLoopState( OF_LOOP_NORMAL );
+    videoPlayer.play();
 
     onionskin.init( onionSkinSettings );
 
@@ -57,6 +62,7 @@ void ofApp::update () {
     #ifndef TARGET_LINUX_ARM
     videoGrabber.update();
     #endif
+    videoPlayer.update();
 }
 
 void ofApp::draw () {
@@ -65,11 +71,13 @@ void ofApp::draw () {
     static int sequenceStartTime = ofGetUnixTime();
 
     frameFbo.begin();
+
 #ifdef TARGET_LINUX_ARM
     videoGrabber.draw();
 #else
     videoGrabber.draw( 0, 0 );
 #endif
+    videoPlayer.draw( 300, 40 );
     frameFbo.end();
     frameFbo.draw( 0, 0 );
 

@@ -40,6 +40,8 @@ class ofApp : public ofBaseApp {
     OnionSkinRingBuffer onionskin;
 
     ThreadedRunCommand taskRunner;
+    
+    ofVideoPlayer videoPlayer;
 
 #ifdef TARGET_OSX
     ThreadedImageSaver imageSaver;

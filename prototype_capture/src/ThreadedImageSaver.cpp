@@ -1,5 +1,5 @@
-#ifdef TARGET_OSX
 #include "ofMain.h"
+#ifdef TARGET_OSX
 #include "ThreadedImageSaver.h"
 
 // -----------------------------------------

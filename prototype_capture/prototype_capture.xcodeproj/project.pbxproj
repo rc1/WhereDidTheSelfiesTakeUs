@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		917E66F51B33082D0003D717 /* ThreadedRunCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 917E66F21B33082D0003D717 /* ThreadedRunCommand.cpp */; };
 		917E66F61B33082D0003D717 /* OnionSkinRingBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 917E66F41B33082D0003D717 /* OnionSkinRingBuffer.cpp */; };
+		91A0CB591B3463D9002BE6C4 /* libuv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91A0CB581B3463D9002BE6C4 /* libuv.a */; };
 		91E655D11B333FBD00374359 /* ThreadedImageSaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91E655D01B333FBD00374359 /* ThreadedImageSaver.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
@@ -66,6 +67,7 @@
 		917E66F21B33082D0003D717 /* ThreadedRunCommand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadedRunCommand.cpp; sourceTree = "<group>"; };
 		917E66F31B33082D0003D717 /* OnionSkinRingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnionSkinRingBuffer.h; sourceTree = "<group>"; };
 		917E66F41B33082D0003D717 /* OnionSkinRingBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnionSkinRingBuffer.cpp; sourceTree = "<group>"; };
+		91A0CB581B3463D9002BE6C4 /* libuv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libuv.a; path = lib/libuv/osx/libuv.a; sourceTree = "<group>"; };
 		91E655B41B331EEE00374359 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		91E655B51B331EEE00374359 /* BaseEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BaseEngine.cpp; sourceTree = "<group>"; };
 		91E655B61B331EEE00374359 /* BaseEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseEngine.h; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91A0CB591B3463D9002BE6C4 /* libuv.a in Frameworks */,
 				E7F985F815E0DEA3003869B5 /* Accelerate.framework in Frameworks */,
 				E7E077E815D3B6510020DFD4 /* QTKit.framework in Frameworks */,
 				E4EB6799138ADC1D00A09F29 /* GLUT.framework in Frameworks */,
@@ -216,6 +219,7 @@
 		E4B69B4A0A3A1720003C02F2 = {
 			isa = PBXGroup;
 			children = (
+				91A0CB581B3463D9002BE6C4 /* libuv.a */,
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
@@ -512,7 +516,6 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_52)",
-					"$(PROJECT_DIR)/lib/osx",
 					"$(PROJECT_DIR)/lib/libuv/osx",
 				);
 				OTHER_LDFLAGS = (
@@ -608,7 +611,6 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_49)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
-					"$(PROJECT_DIR)/lib/osx",
 					"$(PROJECT_DIR)/lib/libuv/osx",
 				);
 				OTHER_LDFLAGS = (
