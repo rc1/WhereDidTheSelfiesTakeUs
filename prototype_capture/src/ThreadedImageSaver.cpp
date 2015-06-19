@@ -69,6 +69,8 @@ ThreadedImageSaver::ThreadedImageSaver()
 {
   uv_mutex_init(&mutex);
   uv_cond_init(&cv);
+    
+    ofLogNotice() << "Using libuv version: " << uv_version_string();
 }
 
 ThreadedImageSaver::~ThreadedImageSaver() {
