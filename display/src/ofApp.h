@@ -4,6 +4,7 @@
 
 #define SELFIES_DISPLAY_HEIGHT 1366
 #define SELFIES_DISPLAY_WIDTH 768
+#define SELFIES_DISPLAY_VIDEO_DIR "./videos"
 
 class ofApp : public ofBaseApp {
  public:
@@ -18,4 +19,7 @@ class ofApp : public ofBaseApp {
     void gotMessage ( ofMessage msg );
     
     ofVideoPlayer videoPlayer;
+    
+    string currentVideoFilename;
+    
 };
