@@ -16,13 +16,13 @@
 		<string>https://github.com/jvcleave/ofxRPiCameraVideoGrabber.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>prototype_capture/prototype_capture.xcodeproj</string>
+	<string>capture/prototype_capture.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>467D7A7795C60A68B3796E89D70328D63FCAED30</key>
 		<string>../../..</string>
 		<key>7D1AB4C9804CEEAEE6367ED6CDAF74D8111D0028</key>
-		<string>../../..addons/ofxRPiCameraVideoGrabber</string>
+		<string>../../..addons/ofxRPiCameraVideoGrabber/</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/rc1/where-did-the-selfies-take-us.git</string>
