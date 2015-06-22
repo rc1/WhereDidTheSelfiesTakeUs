@@ -12,6 +12,7 @@
 #include "ThreadedImageSaver.h"
 #endif
 
+#define SELFIES_CAPTURE_TARGET_DIR "../../../display/bin/data/videos/"
 #define SELFIES_CAPTURE_HEIGHT 460
 #define SELFIES_CAPTURE_WIDTH 800
 

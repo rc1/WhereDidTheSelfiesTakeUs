@@ -87,19 +87,34 @@ void ofApp::draw () {
     frameFbo.end();
     frameFbo.draw( 0, 0 );
 
-    if ( shouldSave ) {
+    if ( shouldSave && frameCounter > 5 ) {
         
         // Run a gst pipeline to make the video
         string makeVideo;
 #ifdef TARGET_LINUX_ARM
-        makeVideo = "gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=0 caps=\"image/png,framerate=\\(fraction\\)12/1\" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
+        makeVideo = "gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=0 caps=\"image/png,framerate=\\(fraction\\)15/1\" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
 #else
         // See INSTALL.md on the mac if this is not working
         // Note: index is appears to be 0 on OSX
-        makeVideo = "/usr/local/bin/gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=0 caps=\"image/png,framerate=\\(fraction\\)12/1\" ! pngdec ! videoconvert ! videoflip method=vertical-flip ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
+        makeVideo = "/usr/local/bin/gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=0 caps=\"image/png,framerate=\\(fraction\\)15/1\" ! pngdec ! videoconvert ! videoflip method=vertical-flip ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
         ofLogNotice() << makeVideo;
 #endif
         taskRunner.addCommand( makeVideo );
+        
+        // Remove any zero byte files that make have happened
+        taskRunner.addCommand( "find " + ofToDataPath( "." ) + " -type f -size 0 | xargs rm" );
+        
+        // Set a .lock file in the target video dir (to stop the player app from loading an incomplete viode)
+        taskRunner.addCommand( "touch " + ofToDataPath( SELFIES_CAPTURE_TARGET_DIR ) + "lock" );
+        
+        // Move the files
+        taskRunner.addCommand( "mv " + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + " " + ofToDataPath( SELFIES_CAPTURE_TARGET_DIR ) );
+        
+        // Remove the lock file
+        taskRunner.addCommand( "rm " + ofToDataPath( SELFIES_CAPTURE_TARGET_DIR ) + "lock" );
+        
+        ofLogVerbose() << "rm " + ofToDataPath( SELFIES_CAPTURE_TARGET_DIR ) + "lock" ;
+    
 
         // #ÊDelete the files
         // Delete only the sequence files

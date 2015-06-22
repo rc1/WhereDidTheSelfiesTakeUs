@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		91F4C10F1B386EE5002A658F /* ofxGStreamer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91F4C10D1B386EE5002A658F /* ofxGStreamer.cpp */; };
+		91F4C1171B386FB5002A658F /* ofGstVideoPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91F4C1121B386FB5002A658F /* ofGstVideoPlayer.cpp */; };
+		91F4C1181B386FB5002A658F /* ofGstVideoGrabber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91F4C1141B386FB5002A658F /* ofGstVideoGrabber.cpp */; };
+		91F4C1191B386FB5002A658F /* ofGstUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91F4C1161B386FB5002A658F /* ofGstUtils.cpp */; };
+		91F4C11B1B386FE4002A658F /* GStreamer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91F4C11A1B386FE4002A658F /* GStreamer.framework */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -59,6 +64,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		91F4C10D1B386EE5002A658F /* ofxGStreamer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxGStreamer.cpp; sourceTree = "<group>"; };
+		91F4C10E1B386EE5002A658F /* ofxGStreamer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGStreamer.h; sourceTree = "<group>"; };
+		91F4C1111B386FB5002A658F /* ofGstVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofGstVideoPlayer.h; path = ../../../libs/openFrameworks/video/ofGstVideoPlayer.h; sourceTree = "<group>"; };
+		91F4C1121B386FB5002A658F /* ofGstVideoPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofGstVideoPlayer.cpp; path = ../../../libs/openFrameworks/video/ofGstVideoPlayer.cpp; sourceTree = "<group>"; };
+		91F4C1131B386FB5002A658F /* ofGstVideoGrabber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofGstVideoGrabber.h; path = ../../../libs/openFrameworks/video/ofGstVideoGrabber.h; sourceTree = "<group>"; };
+		91F4C1141B386FB5002A658F /* ofGstVideoGrabber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofGstVideoGrabber.cpp; path = ../../../libs/openFrameworks/video/ofGstVideoGrabber.cpp; sourceTree = "<group>"; };
+		91F4C1151B386FB5002A658F /* ofGstUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofGstUtils.h; path = ../../../libs/openFrameworks/video/ofGstUtils.h; sourceTree = "<group>"; };
+		91F4C1161B386FB5002A658F /* ofGstUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofGstUtils.cpp; path = ../../../libs/openFrameworks/video/ofGstUtils.cpp; sourceTree = "<group>"; };
+		91F4C11A1B386FE4002A658F /* GStreamer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GStreamer.framework; path = ../../../../../../../Library/Frameworks/GStreamer.framework; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -89,6 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91F4C11B1B386FE4002A658F /* GStreamer.framework in Frameworks */,
 				E7F985F815E0DEA3003869B5 /* Accelerate.framework in Frameworks */,
 				E7E077E815D3B6510020DFD4 /* QTKit.framework in Frameworks */,
 				E4EB6799138ADC1D00A09F29 /* GLUT.framework in Frameworks */,
@@ -111,9 +126,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		91F4C10C1B386EE5002A658F /* ofxGStreamer */ = {
+			isa = PBXGroup;
+			children = (
+				91F4C1101B386F8E002A658F /* ofGSt */,
+				91F4C10D1B386EE5002A658F /* ofxGStreamer.cpp */,
+				91F4C10E1B386EE5002A658F /* ofxGStreamer.h */,
+			);
+			name = ofxGStreamer;
+			path = ../addons/ofxGStreamer/src;
+			sourceTree = "<group>";
+		};
+		91F4C1101B386F8E002A658F /* ofGSt */ = {
+			isa = PBXGroup;
+			children = (
+				91F4C1111B386FB5002A658F /* ofGstVideoPlayer.h */,
+				91F4C1121B386FB5002A658F /* ofGstVideoPlayer.cpp */,
+				91F4C1131B386FB5002A658F /* ofGstVideoGrabber.h */,
+				91F4C1141B386FB5002A658F /* ofGstVideoGrabber.cpp */,
+				91F4C1151B386FB5002A658F /* ofGstUtils.h */,
+				91F4C1161B386FB5002A658F /* ofGstUtils.cpp */,
+			);
+			name = ofGSt;
+			path = ../../../display;
+			sourceTree = "<group>";
+		};
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				91F4C10C1B386EE5002A658F /* ofxGStreamer */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -167,6 +208,7 @@
 		E4B69B4A0A3A1720003C02F2 = {
 			isa = PBXGroup;
 			children = (
+				91F4C11A1B386FE4002A658F /* GStreamer.framework */,
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
@@ -283,8 +325,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91F4C1171B386FB5002A658F /* ofGstVideoPlayer.cpp in Sources */,
+				91F4C10F1B386EE5002A658F /* ofxGStreamer.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
+				91F4C1181B386FB5002A658F /* ofGstVideoGrabber.cpp in Sources */,
+				91F4C1191B386FB5002A658F /* ofGstUtils.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,6 +422,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../libs/glut/lib/osx\"";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -385,6 +432,7 @@
 					"$(OF_CORE_HEADERS)",
 					src,
 					"$(SRCROOT)/include",
+					/Library/Frameworks/Gstreamer.framework/Headers,
 				);
 				ICON = "$(ICON_NAME_DEBUG)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
@@ -467,6 +515,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../libs/glut/lib/osx\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -475,6 +524,7 @@
 					"$(OF_CORE_HEADERS)",
 					src,
 					"$(SRCROOT)/include",
+					/Library/Frameworks/Gstreamer.framework/Headers,
 				);
 				ICON = "$(ICON_NAME_RELEASE)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
