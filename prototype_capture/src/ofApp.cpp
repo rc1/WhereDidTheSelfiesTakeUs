@@ -40,7 +40,7 @@ void ofApp::setup () {
     videoPlayer.setPixelFormat( OF_PIXELS_RGBA );
     videoPlayer.loadMovie( "Overlay.mov" );
     videoPlayer.setLoopState( OF_LOOP_NORMAL );
-    videoPlayer.play();
+    videoPlayer.setFrame( 0     );
 
     onionskin.init( onionSkinSettings );
 
@@ -71,13 +71,19 @@ void ofApp::draw () {
     static int sequenceStartTime = ofGetUnixTime();
 
     frameFbo.begin();
-
+    
+    //#ÊVideo Drawing
+    ofPushMatrix();
+    ofScale( -1, 1, 1 );
+    ofTranslate( -SELFIES_WIDTH, 0 );
 #ifdef TARGET_LINUX_ARM
     videoGrabber.draw();
 #else
     videoGrabber.draw( 0, 0 );
 #endif
-    videoPlayer.draw( 300, 40 );
+    ofPopMatrix();
+    
+    videoPlayer.draw( 0, 0, SELFIES_WIDTH, SELFIES_HEIGHT );
     frameFbo.end();
     frameFbo.draw( 0, 0 );
 
@@ -90,14 +96,17 @@ void ofApp::draw () {
 #else
         // See INSTALL.md on the mac if this is not working
         // Note: index is appears to be 0 on OSX
-        makeVideo = "/usr/local/bin/gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=0 caps=\"image/png,framerate=\\(fraction\\)12/1\" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
+        makeVideo = "/usr/local/bin/gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=0 caps=\"image/png,framerate=\\(fraction\\)12/1\" ! pngdec ! videoconvert ! videoflip method=vertical-flip ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
         ofLogNotice() << makeVideo;
 #endif
         taskRunner.addCommand( makeVideo );
 
-        // Delete the files
-        // string deletePngs = "rm " + ofToDataPath( ofToString( sequenceStartTime ) + "-*.png" );
-        // taskRunner.addCommand( deletePngs );
+        // #ÊDelete the files
+        // Delete only the sequence files
+        //string deletePngs = "rm " + ofToDataPath( ofToString( sequenceStartTime ) + "-*.png" );
+        // Delete them all
+        string deletePngs = "rm " + ofToDataPath( "*.png" );
+        taskRunner.addCommand( deletePngs );
 
         // Reset counters
         sequenceStartTime = ofGetUnixTime();
@@ -129,6 +138,8 @@ void ofApp::draw () {
         }
 #endif
         
+        videoPlayer.nextFrame();
+        
         // Draw the onion skin
         onionskin.renderAll();
         onionskin.next();
@@ -147,7 +158,6 @@ void ofApp::draw () {
         }
         lastUpdate = ofGetElapsedTimef();
     }
-    
     
     onionskin.fbos[ currentFrame ]->draw( 20, 20, ofGetWidth() * 0.2, ofGetHeight() * 0.2 );
     
