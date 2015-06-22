@@ -12,8 +12,8 @@
 #include "ThreadedImageSaver.h"
 #endif
 
-#define SELFIES_HEIGHT 460
-#define SELFIES_WIDTH 800
+#define SELFIES_CAPTURE_HEIGHT 460
+#define SELFIES_CAPTURE_WIDTH 800
 
 class ofApp : public ofBaseApp {
  public:

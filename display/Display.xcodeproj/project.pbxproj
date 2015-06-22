@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		917E66F51B33082D0003D717 /* ThreadedRunCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 917E66F21B33082D0003D717 /* ThreadedRunCommand.cpp */; };
-		917E66F61B33082D0003D717 /* OnionSkinRingBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 917E66F41B33082D0003D717 /* OnionSkinRingBuffer.cpp */; };
-		91A0CB591B3463D9002BE6C4 /* libuv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91A0CB581B3463D9002BE6C4 /* libuv.a */; };
-		91E655D11B333FBD00374359 /* ThreadedImageSaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91E655D01B333FBD00374359 /* ThreadedImageSaver.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -63,29 +59,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		917E66F11B33082D0003D717 /* ThreadedRunCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadedRunCommand.h; sourceTree = "<group>"; };
-		917E66F21B33082D0003D717 /* ThreadedRunCommand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadedRunCommand.cpp; sourceTree = "<group>"; };
-		917E66F31B33082D0003D717 /* OnionSkinRingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnionSkinRingBuffer.h; sourceTree = "<group>"; };
-		917E66F41B33082D0003D717 /* OnionSkinRingBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnionSkinRingBuffer.cpp; sourceTree = "<group>"; };
-		91A0CB581B3463D9002BE6C4 /* libuv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libuv.a; path = lib/libuv/osx/libuv.a; sourceTree = "<group>"; };
-		91E655B41B331EEE00374359 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		91E655B51B331EEE00374359 /* BaseEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BaseEngine.cpp; sourceTree = "<group>"; };
-		91E655B61B331EEE00374359 /* BaseEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseEngine.h; sourceTree = "<group>"; };
-		91E655B71B331EEE00374359 /* ImageFilterCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageFilterCollection.h; sourceTree = "<group>"; };
-		91E655B81B331EEE00374359 /* NonTextureEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NonTextureEngine.cpp; sourceTree = "<group>"; };
-		91E655B91B331EEE00374359 /* NonTextureEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NonTextureEngine.h; sourceTree = "<group>"; };
-		91E655BA1B331EEE00374359 /* ofxRPiCameraVideoGrabber.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxRPiCameraVideoGrabber.cpp; sourceTree = "<group>"; };
-		91E655BB1B331EEE00374359 /* ofxRPiCameraVideoGrabber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxRPiCameraVideoGrabber.h; sourceTree = "<group>"; };
-		91E655BC1B331EEE00374359 /* OMX_Maps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMX_Maps.h; sourceTree = "<group>"; };
-		91E655BD1B331EEE00374359 /* OMXCameraSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMXCameraSettings.h; sourceTree = "<group>"; };
-		91E655BE1B331EEE00374359 /* OMXCameraUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OMXCameraUtils.cpp; sourceTree = "<group>"; };
-		91E655BF1B331EEE00374359 /* OMXCameraUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMXCameraUtils.h; sourceTree = "<group>"; };
-		91E655C01B331EEE00374359 /* TerminalListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TerminalListener.h; sourceTree = "<group>"; };
-		91E655C11B331EEE00374359 /* TextureEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextureEngine.cpp; sourceTree = "<group>"; };
-		91E655C21B331EEE00374359 /* TextureEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextureEngine.h; sourceTree = "<group>"; };
-		91E655C31B3324F600374359 /* INSTALL.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = INSTALL.md; sourceTree = SOURCE_ROOT; };
-		91E655CF1B333FBD00374359 /* ThreadedImageSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadedImageSaver.h; sourceTree = "<group>"; };
-		91E655D01B333FBD00374359 /* ThreadedImageSaver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadedImageSaver.cpp; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -96,7 +69,7 @@
 		E45BE9770E8CC7DD009D7055 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		E45BE9790E8CC7DD009D7055 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		E45BE97A0E8CC7DD009D7055 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
-		E4B69B5B0A3A1756003C02F2 /* captureDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = captureDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4B69B5B0A3A1756003C02F2 /* DisplayDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DisplayDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofApp.cpp; path = src/ofApp.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ofApp.h; path = src/ofApp.h; sourceTree = SOURCE_ROOT; };
@@ -116,7 +89,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91A0CB591B3463D9002BE6C4 /* libuv.a in Frameworks */,
 				E7F985F815E0DEA3003869B5 /* Accelerate.framework in Frameworks */,
 				E7E077E815D3B6510020DFD4 /* QTKit.framework in Frameworks */,
 				E4EB6799138ADC1D00A09F29 /* GLUT.framework in Frameworks */,
@@ -139,33 +111,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		91E655B31B331EEE00374359 /* ofxRPiVideoGrabber */ = {
-			isa = PBXGroup;
-			children = (
-				91E655B41B331EEE00374359 /* .gitignore */,
-				91E655B51B331EEE00374359 /* BaseEngine.cpp */,
-				91E655B61B331EEE00374359 /* BaseEngine.h */,
-				91E655B71B331EEE00374359 /* ImageFilterCollection.h */,
-				91E655B81B331EEE00374359 /* NonTextureEngine.cpp */,
-				91E655B91B331EEE00374359 /* NonTextureEngine.h */,
-				91E655BA1B331EEE00374359 /* ofxRPiCameraVideoGrabber.cpp */,
-				91E655BB1B331EEE00374359 /* ofxRPiCameraVideoGrabber.h */,
-				91E655BC1B331EEE00374359 /* OMX_Maps.h */,
-				91E655BD1B331EEE00374359 /* OMXCameraSettings.h */,
-				91E655BE1B331EEE00374359 /* OMXCameraUtils.cpp */,
-				91E655BF1B331EEE00374359 /* OMXCameraUtils.h */,
-				91E655C01B331EEE00374359 /* TerminalListener.h */,
-				91E655C11B331EEE00374359 /* TextureEngine.cpp */,
-				91E655C21B331EEE00374359 /* TextureEngine.h */,
-			);
-			name = ofxRPiVideoGrabber;
-			path = ../addons/ofxRPiCameraVideoGrabber/src;
-			sourceTree = "<group>";
-		};
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
-				91E655B31B331EEE00374359 /* ofxRPiVideoGrabber */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -219,14 +167,13 @@
 		E4B69B4A0A3A1720003C02F2 = {
 			isa = PBXGroup;
 			children = (
-				91A0CB581B3463D9002BE6C4 /* libuv.a */,
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
 				E45BE5980E8CC70C009D7055 /* frameworks */,
-				E4B69B5B0A3A1756003C02F2 /* captureDebug.app */,
+				E4B69B5B0A3A1756003C02F2 /* DisplayDebug.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -236,13 +183,6 @@
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
-				91E655CF1B333FBD00374359 /* ThreadedImageSaver.h */,
-				91E655D01B333FBD00374359 /* ThreadedImageSaver.cpp */,
-				917E66F11B33082D0003D717 /* ThreadedRunCommand.h */,
-				917E66F21B33082D0003D717 /* ThreadedRunCommand.cpp */,
-				917E66F31B33082D0003D717 /* OnionSkinRingBuffer.h */,
-				917E66F41B33082D0003D717 /* OnionSkinRingBuffer.cpp */,
-				91E655C31B3324F600374359 /* INSTALL.md */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -259,9 +199,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E4B69B5A0A3A1756003C02F2 /* capture */ = {
+		E4B69B5A0A3A1756003C02F2 /* Display */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "capture" */;
+			buildConfigurationList = E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "Display" */;
 			buildPhases = (
 				E4B69B580A3A1756003C02F2 /* Sources */,
 				E4B69B590A3A1756003C02F2 /* Frameworks */,
@@ -273,9 +213,9 @@
 			dependencies = (
 				E4EEB9AC138B136A00A80321 /* PBXTargetDependency */,
 			);
-			name = capture;
+			name = Display;
 			productName = myOFApp;
-			productReference = E4B69B5B0A3A1756003C02F2 /* captureDebug.app */;
+			productReference = E4B69B5B0A3A1756003C02F2 /* DisplayDebug.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -286,7 +226,7 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 			};
-			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "capture" */;
+			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "Display" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -307,7 +247,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				E4B69B5A0A3A1756003C02F2 /* capture */,
+				E4B69B5A0A3A1756003C02F2 /* Display */,
 			);
 		};
 /* End PBXProject section */
@@ -345,9 +285,6 @@
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
-				917E66F61B33082D0003D717 /* OnionSkinRingBuffer.cpp in Sources */,
-				91E655D11B333FBD00374359 /* ThreadedImageSaver.cpp in Sources */,
-				917E66F51B33082D0003D717 /* ThreadedRunCommand.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,14 +452,9 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_49)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_52)",
-					"$(PROJECT_DIR)/lib/libuv/osx",
 				);
-				OTHER_LDFLAGS = (
-					"$(OF_CORE_LIBS)",
-					"\"$(SRCROOT)/lib/libuv/osx/libuv.a\"",
-				);
-				PRODUCT_NAME = captureDebug;
+				OTHER_LDFLAGS = "$(OF_CORE_LIBS)";
+				PRODUCT_NAME = DisplayDebug;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -611,13 +543,9 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_49)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
-					"$(PROJECT_DIR)/lib/libuv/osx",
 				);
-				OTHER_LDFLAGS = (
-					"$(OF_CORE_LIBS)",
-					"\"$(SRCROOT)/lib/libuv/osx/libuv.a\"",
-				);
-				PRODUCT_NAME = capture;
+				OTHER_LDFLAGS = "$(OF_CORE_LIBS)";
+				PRODUCT_NAME = Display;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -625,7 +553,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "capture" */ = {
+		E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "Display" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E4B69B4E0A3A1720003C02F2 /* Debug */,
@@ -634,7 +562,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "capture" */ = {
+		E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "Display" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E4B69B600A3A1757003C02F2 /* Debug */,

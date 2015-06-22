@@ -8,8 +8,8 @@ void ofApp::setup () {
 #ifdef TARGET_LINUX_ARM
     ofLogNotice() << "Using OMX Camera (I am a raspberry pi)" << endl;
     // Camera Settings
-    omxCameraSettings.width = SELFIES_WIDTH; // default 1280
-    omxCameraSettings.height = SELFIES_HEIGHT; // default 720
+    omxCameraSettings.width = SELFIES_CAPTURE_WIDTH; // default 1280
+    omxCameraSettings.height = SELFIES_CAPTURE_HEIGHT; // default 720
     omxCameraSettings.isUsingTexture = true; //default true
     omxCameraSettings.doRecording = false;   //default false
 
@@ -18,14 +18,14 @@ void ofApp::setup () {
 #else
     ofLogNotice() << "Using video grabber (I am a NOT raspberry pi)" << endl;
     videoGrabber.setDeviceID( 0 );
-    videoGrabber.initGrabber( SELFIES_WIDTH, SELFIES_HEIGHT );
+    videoGrabber.initGrabber( SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT );
 #endif
 
     // Onion Skin
     onionSkinSettings.numberFrames = 12 * 3;
     onionSkinSettings.show = 4;
-    onionSkinSettings.width = SELFIES_WIDTH / 4;
-    onionSkinSettings.height = SELFIES_HEIGHT / 4;
+    onionSkinSettings.width = SELFIES_CAPTURE_WIDTH / 4;
+    onionSkinSettings.height = SELFIES_CAPTURE_HEIGHT / 4;
     
     shouldCaptureFrame = false;
     shouldDrawOnionSkin = true;
@@ -35,7 +35,7 @@ void ofApp::setup () {
     shouldDrawHUD = true;
 #endif
 
-    frameFbo.allocate( SELFIES_WIDTH, SELFIES_HEIGHT, GL_RGB, OF_PIXELS_BGRA /*GL_RGBA32F*/ );
+    frameFbo.allocate( SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT, GL_RGB, OF_PIXELS_BGRA /*GL_RGBA32F*/ );
     
     videoPlayer.setPixelFormat( OF_PIXELS_RGBA );
     videoPlayer.loadMovie( "Overlay.mov" );
@@ -45,7 +45,7 @@ void ofApp::setup () {
     onionskin.init( onionSkinSettings );
 
 #ifdef TARGET_OSX
-    if( !imageSaver.setup( SELFIES_WIDTH, SELFIES_HEIGHT, 20 ) ) { // last params is number of preallocated frames
+    if( !imageSaver.setup( SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT, 20 ) ) { // last params is number of preallocated frames
         printf( "error: cannot start the screen grab saver.\n" );
         ::exit(EXIT_FAILURE);
     }
@@ -75,7 +75,7 @@ void ofApp::draw () {
     //#ÊVideo Drawing
     ofPushMatrix();
     ofScale( -1, 1, 1 );
-    ofTranslate( -SELFIES_WIDTH, 0 );
+    ofTranslate( -SELFIES_CAPTURE_WIDTH, 0 );
 #ifdef TARGET_LINUX_ARM
     videoGrabber.draw();
 #else
@@ -83,7 +83,7 @@ void ofApp::draw () {
 #endif
     ofPopMatrix();
     
-    videoPlayer.draw( 0, 0, SELFIES_WIDTH, SELFIES_HEIGHT );
+    videoPlayer.draw( 0, 0, SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT );
     frameFbo.end();
     frameFbo.draw( 0, 0 );
 
@@ -121,7 +121,7 @@ void ofApp::draw () {
         onionskin.getCurrentFboPtr()->begin();
         ofClear( 0, 0, 0, 0 );
         ofPushMatrix();
-        ofScale( float( onionskin.settings.width ) / float( SELFIES_WIDTH ), float( onionskin.settings.height ) / float( SELFIES_HEIGHT ), 1.0 );
+        ofScale( float( onionskin.settings.width ) / float( SELFIES_CAPTURE_WIDTH ), float( onionskin.settings.height ) / float( SELFIES_CAPTURE_HEIGHT ), 1.0 );
         frameFbo.draw( 0, 0 );
         
         ofPopMatrix();
@@ -147,7 +147,7 @@ void ofApp::draw () {
     }
     
     if ( shouldDrawOnionSkin ) {
-        onionskin.layer.draw( 0, 0, SELFIES_WIDTH, SELFIES_HEIGHT );
+        onionskin.layer.draw( 0, 0, SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT );
     }
 
     static int currentFrame = 0;

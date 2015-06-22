@@ -1,7 +1,10 @@
 obj
 */bin/*
 !*/bin/data/
-prototype_capture/bin/data/*.ogg
 *.xcuserstate
+
 capture/bin/*
 !capture/bin/data/.gitkeep
+
+display/bin/*
+!display/bin/data/.gitkeep
