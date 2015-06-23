@@ -129,9 +129,10 @@ void ofApp::draw () {
         shouldSave = false;
     }
     
+    bool isSaving = taskRunner.queueSize() > 0;
 
     // Capture a new frame to the buffer
-    if ( shouldCaptureFrame ) {
+    if ( !isSaving && shouldCaptureFrame ) {
         // Add the onion skin
         onionskin.getCurrentFboPtr()->begin();
         ofClear( 0, 0, 0, 0 );
@@ -183,7 +184,13 @@ void ofApp::draw () {
         ofDrawBitmapStringHighlight( "[s] Save video & new session", ofPoint( 200, 80 ) );
         ofDrawBitmapStringHighlight( "[h] Show this display", ofPoint( 200, 100 ) );
     }
- 
+    
+    if ( isSaving ) {
+        ofPushStyle();
+        ofSetColor( 255, 0, 0 );
+        ofCircle( ofGetWidth() - 20.0f, 20.0f, 10.0f );
+        ofPopStyle();
+    }
     
 }
 
