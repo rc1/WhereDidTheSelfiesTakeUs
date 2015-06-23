@@ -18,7 +18,11 @@ class ofApp : public ofBaseApp {
     void windowResized ( int w, int h);
     void gotMessage ( ofMessage msg );
     
-    ofVideoPlayer videoPlayer;
+    ofVideoPlayer videoPlayerA;
+    ofVideoPlayer videoPlayerB;
+    ofVideoPlayer *activeVideoPlayer;
+    ofVideoPlayer *inactiveVideoPlayer;
+    bool isLoadingNewVideo;
     
     string currentVideoFilename;
     string nextUpVideoPath;

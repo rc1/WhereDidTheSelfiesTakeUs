@@ -44,14 +44,16 @@ inline void playVideo( ofApp &app, string filename ) {
 
 void ofApp::setup () {
     ofSetLogLevel( OF_LOG_NOTICE );
-    videoPlayer.setPlayer( ofPtr<ofGstVideoPlayer>( new ofGstVideoPlayer ) );
-
+    videoPlayerA.setPlayer( ofPtr<ofGstVideoPlayer>( new ofGstVideoPlayer ) );
+    videoPlayerB.setPlayer( ofPtr<ofGstVideoPlayer>( new ofGstVideoPlayer ) );
+    activeVideoPlayer = &videoPlayerA;
+    inactiveVideoPlayer = &videoPlayerB;
+    
+    isLoadingNewVideo = false;
     currentVideoFilename = "";
     nextUpVideoPath = "";
     
     ofSetBackgroundColor( 0 );
-    
-    ofLogNotice() << "videoPlayer:" << videoPlayer.getIsMovieDone();
 }
 
 void ofApp::exit () {
@@ -60,8 +62,8 @@ void ofApp::exit () {
 
 void ofApp::update () {
     
-    if ( videoPlayer.isLoaded() ) {
-        videoPlayer.update();
+    if ( activeVideoPlayer->isLoaded() ) {
+        activeVideoPlayer->update();
     }
     
     // List of all video files
@@ -70,7 +72,7 @@ void ofApp::update () {
     static Expires reloadDirTime( 2.0f );
     
     // Check any changes in the video files folder
-    if ( reloadDirTime.resetIfExpired() ) {
+    if ( reloadDirTime.resetIfExpired() && !isLoadingNewVideo ) {
         
         ofDirectory d;
         d.listDir( SELFIES_DISPLAY_VIDEO_DIR );
@@ -99,7 +101,7 @@ void ofApp::update () {
     }
     // If the current file is finished, queue the next filename
     else {
-        if ( videoPlayer.getIsMovieDone() && videoFiles.size() > 0 ) {
+        if ( activeVideoPlayer->getIsMovieDone() && videoFiles.size() > 0 && !isLoadingNewVideo ) {
             playVideo( *this, getNextFilenameInFiles( videoFiles, currentVideoFilename ) );
         }
     }
@@ -110,14 +112,19 @@ void ofApp::update () {
     // by first closing the video player, then
     // once it has closed (later) load the next
     if ( nextUpVideoPath != "" ) {
-        if ( videoPlayer.isLoaded() ) {
-            videoPlayer.stop();
-            videoPlayer.closeMovie();
-        } else {
-            ofLogNotice() << "Will load: " << nextUpVideoPath;
-            videoPlayer.loadMovie( nextUpVideoPath );
+        if ( !isLoadingNewVideo ) {
+            activeVideoPlayer->stop();
+            inactiveVideoPlayer->loadMovie( nextUpVideoPath );
+            isLoadingNewVideo = true;
+        } else if ( inactiveVideoPlayer->isLoaded() ) {
+            activeVideoPlayer->close();
+            inactiveVideoPlayer->play();
+            // Swap pointer
+            ofVideoPlayer *swap = activeVideoPlayer;
+            activeVideoPlayer = inactiveVideoPlayer;
+            inactiveVideoPlayer = swap;
+            isLoadingNewVideo = false;
             nextUpVideoPath = "";
-            videoPlayer.play();
         }
     }
 }
@@ -127,10 +134,10 @@ void ofApp::draw () {
     
     // Draw the video scaled to fit the window
     ofTranslate( ofGetWidth() / 2.0f, ofGetHeight() / 2.0f );
-    float scaleToFitRatio = scaleToBoundsRatio( videoPlayer.getWidth(), videoPlayer.getHeight(), ofGetWidth(), ofGetHeight() );
+    float scaleToFitRatio = scaleToBoundsRatio( activeVideoPlayer->getWidth(), activeVideoPlayer->getHeight(), ofGetWidth(), ofGetHeight() );
     ofScale( scaleToFitRatio, scaleToFitRatio, 1.0f );
-    ofTranslate( -videoPlayer.getWidth() / 2.0f, -videoPlayer.getHeight() / 2.0f );
-    videoPlayer.draw( 0, 0 );
+    ofTranslate( -activeVideoPlayer->getWidth() / 2.0f, -activeVideoPlayer->getHeight() / 2.0f );
+    activeVideoPlayer->draw( 0, 0 );
 }
 
 void ofApp::keyPressed ( int key ) {
