@@ -143,14 +143,15 @@ void ofApp::draw () {
         // Remove the lock file
         taskRunner.addCommand( "rm " + ofToDataPath( SELFIES_CAPTURE_TARGET_DIR ) + "lock" );
         
-        ofLogVerbose() << "rm " + ofToDataPath( SELFIES_CAPTURE_TARGET_DIR ) + "lock" ;
+        // Write the last frame number
+        taskRunner.addCommand( "echo " + ofToString( videoPlayer.getCurrentFrame() ) + " > " + ofToDataPath( "captures/.lastFrame" ) );
     
 
         // ###ÊDelete frame captures
         // Delete only the sequence files
         //string deletePngs = "rm " + ofToDataPath( ofToString( sequenceStartTime ) + "-*.png" );
         // Delete them all
-        string deletePngs = "rm " + ofToDataPath( "*.png" );
+        string deletePngs = "rm " + ofToDataPath( "captures/*.png" );
         taskRunner.addCommand( deletePngs );
 
         // ## Reset counters
