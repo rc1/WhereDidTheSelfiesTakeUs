@@ -2,12 +2,14 @@
 
 #include "ofMain.h"
 
-class ThreadedRunCommand : public ofThread {
+class ThreadedExecQueue : public ofThread {
  public:
 
     void threadedFunction ();
 
     void addCommand ( string command );
+    
+    int queueSize ();
 
  protected:
     queue<string> commands;

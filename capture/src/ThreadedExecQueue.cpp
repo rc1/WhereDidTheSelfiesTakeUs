@@ -1,6 +1,6 @@
-#include "ThreadedRunCommand.h"
+#include "ThreadedExecQueue.h"
 
-void ThreadedRunCommand::threadedFunction () {
+void ThreadedExecQueue::threadedFunction () {
 
     while ( isThreadRunning() ) {
         string commandToDo = "";
@@ -21,8 +21,16 @@ void ThreadedRunCommand::threadedFunction () {
     
 }
 
-void ThreadedRunCommand::addCommand ( string command )  {
+void ThreadedExecQueue::addCommand ( string command )  {
     lock();
     commands.push( command );
     unlock();
+}
+
+int ThreadedExecQueue::queueSize ()  {
+    int size = 0;
+    lock();
+    size = commands.size();
+    unlock();
+    return size;
 }
