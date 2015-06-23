@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		917E66F51B33082D0003D717 /* ThreadedRunCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 917E66F21B33082D0003D717 /* ThreadedRunCommand.cpp */; };
+		917E66F51B33082D0003D717 /* ThreadedExecQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 917E66F21B33082D0003D717 /* ThreadedExecQueue.cpp */; };
 		917E66F61B33082D0003D717 /* OnionSkinRingBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 917E66F41B33082D0003D717 /* OnionSkinRingBuffer.cpp */; };
 		91A0CB591B3463D9002BE6C4 /* libuv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91A0CB581B3463D9002BE6C4 /* libuv.a */; };
 		91E655D11B333FBD00374359 /* ThreadedImageSaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91E655D01B333FBD00374359 /* ThreadedImageSaver.cpp */; };
@@ -63,8 +63,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		917E66F11B33082D0003D717 /* ThreadedRunCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadedRunCommand.h; sourceTree = "<group>"; };
-		917E66F21B33082D0003D717 /* ThreadedRunCommand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadedRunCommand.cpp; sourceTree = "<group>"; };
+		917E66F11B33082D0003D717 /* ThreadedExecQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadedExecQueue.h; sourceTree = "<group>"; };
+		917E66F21B33082D0003D717 /* ThreadedExecQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadedExecQueue.cpp; sourceTree = "<group>"; };
 		917E66F31B33082D0003D717 /* OnionSkinRingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnionSkinRingBuffer.h; sourceTree = "<group>"; };
 		917E66F41B33082D0003D717 /* OnionSkinRingBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnionSkinRingBuffer.cpp; sourceTree = "<group>"; };
 		91A0CB581B3463D9002BE6C4 /* libuv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libuv.a; path = lib/libuv/osx/libuv.a; sourceTree = "<group>"; };
@@ -238,8 +238,8 @@
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				91E655CF1B333FBD00374359 /* ThreadedImageSaver.h */,
 				91E655D01B333FBD00374359 /* ThreadedImageSaver.cpp */,
-				917E66F11B33082D0003D717 /* ThreadedRunCommand.h */,
-				917E66F21B33082D0003D717 /* ThreadedRunCommand.cpp */,
+				917E66F11B33082D0003D717 /* ThreadedExecQueue.h */,
+				917E66F21B33082D0003D717 /* ThreadedExecQueue.cpp */,
 				917E66F31B33082D0003D717 /* OnionSkinRingBuffer.h */,
 				917E66F41B33082D0003D717 /* OnionSkinRingBuffer.cpp */,
 				91E655C31B3324F600374359 /* INSTALL.md */,
@@ -347,7 +347,7 @@
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				917E66F61B33082D0003D717 /* OnionSkinRingBuffer.cpp in Sources */,
 				91E655D11B333FBD00374359 /* ThreadedImageSaver.cpp in Sources */,
-				917E66F51B33082D0003D717 /* ThreadedRunCommand.cpp in Sources */,
+				917E66F51B33082D0003D717 /* ThreadedExecQueue.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
