@@ -60,7 +60,14 @@ void ofApp::setup () {
     videoPlayer.setPixelFormat( OF_PIXELS_RGBA );
     videoPlayer.loadMovie( "Overlay.mov" );
     videoPlayer.setLoopState( OF_LOOP_NORMAL );
-    videoPlayer.setFrame( 0 );
+    
+    // Get the last know frame
+    int lastVideoFrameNumber = 0;
+    ofBuffer buffer = ofBufferFromFile( ofToDataPath( "captures/.lastFrame" ) );
+    if ( buffer.size() > 0 ) {
+        lastVideoFrameNumber = ofToInt( buffer.getText() );
+    }
+    videoPlayer.setFrame( lastVideoFrameNumber );
 
     onionskin.init( onionSkinSettings );
 
