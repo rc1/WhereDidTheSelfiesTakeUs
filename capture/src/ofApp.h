@@ -15,6 +15,8 @@
 #define SELFIES_CAPTURE_TARGET_DIR "../../../display/bin/data/videos/"
 #define SELFIES_CAPTURE_HEIGHT 460
 #define SELFIES_CAPTURE_WIDTH 800
+#define SELFIES_CAPTURE_THROTTLE_SEC 1.0f
+#define SELFIES_CAPTURE_DIGIT_IMAGE "CounterDigits.png"
 
 class ofApp : public ofBaseApp {
  public:
@@ -34,15 +36,14 @@ class ofApp : public ofBaseApp {
     #else
     ofVideoGrabber videoGrabber;
     #endif
-
-    ofFbo frameFbo;
     
     OnionSkinRingBufferSettings onionSkinSettings;
     OnionSkinRingBuffer onionskin;
-
-    ThreadedExecQueue taskRunner;
     
+    ofFbo frameFbo;
+    ThreadedExecQueue taskRunner;
     ofVideoPlayer videoPlayer;
+    ofImage digits;
 
 #ifdef TARGET_OSX
     ThreadedImageSaver imageSaver;

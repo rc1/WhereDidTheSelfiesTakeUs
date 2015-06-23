@@ -10,7 +10,6 @@ public:
     Expires(float ttl):ttl(ttl) { time=0; };
     bool hasExpired() { return ofGetElapsedTimef() - time > ttl; };
     void reset() { time=ofGetElapsedTimef(); }
-    // Returns true if expired
     bool resetIfExpired() { if ( hasExpired() ) { reset(); return true; } return false; }
 private:
     float ttl;
@@ -139,7 +138,9 @@ void ofApp::keyPressed ( int key ) {
 }
 
 void ofApp::keyReleased ( int key ) {
-
+    if ( key == 'f' ) {
+        ofToggleFullscreen();
+    }
 }
 
 void ofApp::windowResized ( int w, int h ) {

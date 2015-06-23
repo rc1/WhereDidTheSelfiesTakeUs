@@ -5,6 +5,7 @@ obj
 
 capture/bin/*
 !capture/bin/data/.gitkeep
+!capture/bin/data/captures/.gitkeep
 
 display/bin/*
 !display/bin/data/.gitkeep

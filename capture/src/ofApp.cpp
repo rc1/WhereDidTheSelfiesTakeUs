@@ -1,7 +1,27 @@
 #include "ofApp.h"
 
+// Utils
+// =====
+inline void drawDigitsCentered( ofImage &image, int number ) {
+    float digitsWidth = image.getWidth() / 10.0f;
+    ofPushMatrix();
+    int numberOfDigits = ( number == 0 ) ? 1 : log10( number ) + 1;
+    ofTranslate( ( numberOfDigits * digitsWidth ) / 2.0f , -image.getHeight() / 2.0f );
+    int idx = 0;
+    while ( number > 0 ) {
+        image.drawSubsection( 0 - ( ++idx * digitsWidth ), 0, digitsWidth, image.getHeight(), (number % 10) * digitsWidth, 0 );
+        number = number / 10;
+    }
+    ofPopMatrix();
+}
+
+// ofApp
+// =====
+
 void ofApp::setup () {
     ofSetLogLevel( OF_LOG_NOTICE );
+    
+    digits.loadImage( SELFIES_CAPTURE_DIGIT_IMAGE );
 
     // ofSetFullscreen( true );
 
@@ -40,7 +60,7 @@ void ofApp::setup () {
     videoPlayer.setPixelFormat( OF_PIXELS_RGBA );
     videoPlayer.loadMovie( "Overlay.mov" );
     videoPlayer.setLoopState( OF_LOOP_NORMAL );
-    videoPlayer.setFrame( 0     );
+    videoPlayer.setFrame( 0 );
 
     onionskin.init( onionSkinSettings );
 
@@ -51,7 +71,7 @@ void ofApp::setup () {
     }
 #endif
 
-    taskRunner.startThread( true, false ); 
+    taskRunner.startThread( true );
 }
 
 void ofApp::exit () {
@@ -69,6 +89,7 @@ void ofApp::draw () {
     
     static int frameCounter = 0;
     static int sequenceStartTime = ofGetUnixTime();
+    static float lastCaptureTime = -10000.0f;
 
     frameFbo.begin();
     
@@ -92,11 +113,11 @@ void ofApp::draw () {
         // Run a gst pipeline to make the video
         string makeVideo;
 #ifdef TARGET_LINUX_ARM
-        makeVideo = "gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=0 caps=\"image/png,framerate=\\(fraction\\)15/1\" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
+        makeVideo = "gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( "captures/" + ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=0 caps=\"image/png,framerate=\\(fraction\\)15/1\" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
 #else
         // See INSTALL.md on the mac if this is not working
         // Note: index is appears to be 0 on OSX
-        makeVideo = "/usr/local/bin/gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=0 caps=\"image/png,framerate=\\(fraction\\)15/1\" ! pngdec ! videoconvert ! videoflip method=vertical-flip ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
+        makeVideo = "/usr/local/bin/gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( "captures/" + ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=0 caps=\"image/png,framerate=\\(fraction\\)15/1\" ! pngdec ! videoconvert ! videoflip method=vertical-flip ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
         ofLogNotice() << makeVideo;
 #endif
         taskRunner.addCommand( makeVideo );
@@ -132,7 +153,7 @@ void ofApp::draw () {
     bool isSaving = taskRunner.queueSize() > 0;
 
     // Capture a new frame to the buffer
-    if ( !isSaving && shouldCaptureFrame ) {
+    if ( !isSaving && shouldCaptureFrame && ofGetElapsedTimef() - lastCaptureTime > SELFIES_CAPTURE_THROTTLE_SEC ) {
         // Add the onion skin
         onionskin.getCurrentFboPtr()->begin();
         ofClear( 0, 0, 0, 0 );
@@ -147,9 +168,9 @@ void ofApp::draw () {
 #ifdef TARGET_LINUX_ARM
         ofPixels pix;
         frameFbo.readToPixels( pix );
-        ofSaveImage( pix, ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png" );
+        ofSaveImage( pix, "captures/" + ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png" );
 #else
-        if ( !imageSaver.grabFbo( ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png", frameFbo ) ) {
+        if ( !imageSaver.grabFbo( "captures/" + ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png", frameFbo ) ) {
             ofLogError() << "Failed to grab screen. Maybe screen grab buffer is set to low";
         }
 #endif
@@ -159,6 +180,8 @@ void ofApp::draw () {
         // Draw the onion skin
         onionskin.renderAll();
         onionskin.next();
+        
+        lastCaptureTime = ofGetElapsedTimef();
         shouldCaptureFrame = false;
     }
     
@@ -192,6 +215,20 @@ void ofApp::draw () {
         ofPopStyle();
     }
     
+    // Flash on talking image
+    if ( ofGetElapsedTimef() - lastCaptureTime < SELFIES_CAPTURE_THROTTLE_SEC ) {
+
+        ofPushMatrix();
+        ofPushStyle();
+        // Draw overlat
+        ofSetColor( 255, 255, 0, ofMap( ofGetElapsedTimef() - lastCaptureTime, 0, SELFIES_CAPTURE_THROTTLE_SEC, 255, 0 ) );
+        ofRect( 0, 0, ofGetWidth(), ofGetHeight() );
+        ofPopStyle();
+        // Draw digits
+        ofTranslate( ofGetWidth() / 2.0f, ofGetHeight() / 2.0f );
+        drawDigitsCentered( digits, frameCounter );
+        ofPopMatrix();
+    }
 }
 
 void ofApp::keyPressed ( int key ) {
