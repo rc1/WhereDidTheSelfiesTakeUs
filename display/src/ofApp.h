@@ -5,6 +5,7 @@
 #define SELFIES_DISPLAY_HEIGHT 1366
 #define SELFIES_DISPLAY_WIDTH 768
 #define SELFIES_DISPLAY_VIDEO_DIR "./videos/"
+#define SELFIES_CAPTURE_NEW_VIDEO_IMAGE "newVideo.png"
 
 class ofApp : public ofBaseApp {
  public:
@@ -26,5 +27,7 @@ class ofApp : public ofBaseApp {
     
     string currentVideoFilename;
     string nextUpVideoPath;
+    int newVideoDisplayCount;
+    ofImage newVideoImage;
     
 };

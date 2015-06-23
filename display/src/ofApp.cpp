@@ -33,6 +33,17 @@ inline string getNextFilenameInFiles( const vector<ofFile> &files, const string 
     return files[ ++idx >= files.size() ? 0 : idx ].getFileName();
 }
 
+inline string getPreviousFilenameInFiles( const vector<ofFile> &files, const string currentFilename ) {
+    if ( files.size() == 0 ) { return ""; }
+    unsigned int idx = 0;
+    for ( ; idx < files.size(); ++idx ) {
+        if ( files[ idx ].getFileName() == currentFilename ) {
+            break;
+        }
+    }
+    return files[ --idx < 0 ? files.size()-1 : idx ].getFileName();
+}
+
 inline void playVideo( ofApp &app, string filename ) {
     app.nextUpVideoPath = ofToDataPath( SELFIES_DISPLAY_VIDEO_DIR + filename );
     app.currentVideoFilename = filename;
@@ -52,6 +63,9 @@ void ofApp::setup () {
     isLoadingNewVideo = false;
     currentVideoFilename = "";
     nextUpVideoPath = "";
+    
+    newVideoDisplayCount = 0;
+    newVideoImage.loadImage( SELFIES_CAPTURE_NEW_VIDEO_IMAGE );
     
     ofSetBackgroundColor( 0 );
 }
@@ -96,13 +110,31 @@ void ofApp::update () {
             if ( differentFiles.size() > 0 ) {
                 videoFiles = incomingVideoFiles;
                 playVideo( *this, differentFiles.back().getFileName() );
+                newVideoDisplayCount = 3;
             }
         }
     }
     // If the current file is finished, queue the next filename
     else {
         if ( activeVideoPlayer->getIsMovieDone() && videoFiles.size() > 0 && !isLoadingNewVideo ) {
-            playVideo( *this, getNextFilenameInFiles( videoFiles, currentVideoFilename ) );
+            if ( newVideoDisplayCount == 0 ) {
+                playVideo( *this, getNextFilenameInFiles( videoFiles, currentVideoFilename ) );
+            }
+            // Go back x number of video to see the new video in context
+            else if ( newVideoDisplayCount == 1 ) {
+                string previousFilename = currentVideoFilename;
+                for ( int i = 0; i < 3; ++i ) {
+                    previousFilename = getPreviousFilenameInFiles( videoFiles, previousFilename );
+                }
+                playVideo( *this, previousFilename );
+                --newVideoDisplayCount;
+            }
+            else {
+                ofLogNotice() << newVideoDisplayCount;
+                activeVideoPlayer->setFrame( 0 );
+                activeVideoPlayer->play();
+                --newVideoDisplayCount;
+            }
         }
     }
     // if the next button had been released
@@ -132,12 +164,18 @@ void ofApp::update () {
 void ofApp::draw () {
     ofClear( ofColor::black );
     
+    ofPushMatrix();
     // Draw the video scaled to fit the window
     ofTranslate( ofGetWidth() / 2.0f, ofGetHeight() / 2.0f );
     float scaleToFitRatio = scaleToBoundsRatio( activeVideoPlayer->getWidth(), activeVideoPlayer->getHeight(), ofGetWidth(), ofGetHeight() );
     ofScale( scaleToFitRatio, scaleToFitRatio, 1.0f );
     ofTranslate( -activeVideoPlayer->getWidth() / 2.0f, -activeVideoPlayer->getHeight() / 2.0f );
     activeVideoPlayer->draw( 0, 0 );
+    ofPopMatrix();
+    
+    if ( newVideoDisplayCount > 0 ) {
+        newVideoImage.draw( 20, 20 );
+    }
 }
 
 void ofApp::keyPressed ( int key ) {
