@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 #include "OnionSkinRingBuffer.h"
-#include "ThreadedRunCommand.h"
+#include "ThreadedExecQueue.h"
 
 #ifdef TARGET_LINUX_ARM
 #include "ofxRPiCameraVideoGrabber.h"
@@ -40,7 +40,7 @@ class ofApp : public ofBaseApp {
     OnionSkinRingBufferSettings onionSkinSettings;
     OnionSkinRingBuffer onionskin;
 
-    ThreadedRunCommand taskRunner;
+    ThreadedExecQueue taskRunner;
     
     ofVideoPlayer videoPlayer;
 
