@@ -24,6 +24,7 @@ void ofApp::setup () {
     ofSetLogLevel( OF_LOG_NOTICE );
     
     digits.loadImage( SELFIES_CAPTURE_DIGIT_IMAGE );
+    saving.loadImage( SELFIES_CAPTURE_SAVING_IMAGE );
 
 #ifdef TARGET_LINUX_ARM
     ofLogNotice() << "Using OMX Camera (I am a raspberry pi)" << endl;
@@ -230,8 +231,12 @@ void ofApp::draw () {
     // --------------
     if ( isSaving ) {
         ofPushStyle();
-        ofSetColor( 255, 0, 0 );
-        ofCircle( ofGetWidth() - 20.0f, 20.0f, 10.0f );
+        ofSetColor( 255, 255, 0 );
+        ofRect( 0, 0, ofGetWidth(), ofGetHeight() );
+        ofPushMatrix();
+        ofTranslate( ofGetWidth() / 2.0f, ofGetHeight() / 2.0f );
+        saving.draw( -saving.getWidth() / 2.0f, -saving.getHeight() / 2.0f );
+        ofPushMatrix();
         ofPopStyle();
     }
     
