@@ -1,14 +1,18 @@
 obj
-*/bin/*
-!*/bin/data/
 *.xcuserstate
 
 capture/bin/*
+!capture/bin/data
+capture/bin/data/*
 !capture/bin/data/.gitkeep
 !capture/bin/data/Saving.png
 !capture/bin/data/CounterDigits.png
+!capture/bin/data/captures
+capture/bin/data/captures/*
 !capture/bin/data/captures/.gitkeep
 
 display/bin/*
+!display/bin/data
+display/bin/data/*
 !display/bin/data/.gitkeep
 !display/bin/data/NewVideo.png
