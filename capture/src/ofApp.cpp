@@ -2,6 +2,8 @@
 
 // Utils
 // =====
+
+// Takes an image of digits and draws a number using them
 inline void drawDigitsCentered( ofImage &image, int number ) {
     float digitsWidth = image.getWidth() / 10.0f;
     ofPushMatrix();
@@ -22,8 +24,6 @@ void ofApp::setup () {
     ofSetLogLevel( OF_LOG_NOTICE );
     
     digits.loadImage( SELFIES_CAPTURE_DIGIT_IMAGE );
-
-    // ofSetFullscreen( true );
 
 #ifdef TARGET_LINUX_ARM
     ofLogNotice() << "Using OMX Camera (I am a raspberry pi)" << endl;
@@ -49,7 +49,7 @@ void ofApp::setup () {
     
     shouldCaptureFrame = false;
     shouldDrawOnionSkin = true;
-    shouldSave = false;
+    shouldCreateRecording = false;
     shouldDrawHUD = false;
 #ifndef TARGET_LINUX_ARM
     shouldDrawHUD = true;
@@ -91,9 +91,9 @@ void ofApp::draw () {
     static int sequenceStartTime = ofGetUnixTime();
     static float lastCaptureTime = -10000.0f;
 
+    // Compose Live Image
+    // ------------------
     frameFbo.begin();
-    
-    //#ÊVideo Drawing
     ofPushMatrix();
     ofScale( -1, 1, 1 );
     ofTranslate( -SELFIES_CAPTURE_WIDTH, 0 );
@@ -108,7 +108,9 @@ void ofApp::draw () {
     frameFbo.end();
     frameFbo.draw( 0, 0 );
 
-    if ( shouldSave && frameCounter > 5 ) {
+    // Create Recording
+    // ----------------
+    if ( shouldCreateRecording && frameCounter > 5 ) {
         
         // Run a gst pipeline to make the video
         string makeVideo;
@@ -137,24 +139,27 @@ void ofApp::draw () {
         ofLogVerbose() << "rm " + ofToDataPath( SELFIES_CAPTURE_TARGET_DIR ) + "lock" ;
     
 
-        // #ÊDelete the files
+        // ###ÊDelete frame captures
         // Delete only the sequence files
         //string deletePngs = "rm " + ofToDataPath( ofToString( sequenceStartTime ) + "-*.png" );
         // Delete them all
         string deletePngs = "rm " + ofToDataPath( "*.png" );
         taskRunner.addCommand( deletePngs );
 
-        // Reset counters
+        // ## Reset counters
         sequenceStartTime = ofGetUnixTime();
         frameCounter = 0;
-        shouldSave = false;
+        shouldCreateRecording = false;
     }
     
+    // Update Saving Status
+    // --------------------
     bool isSaving = taskRunner.queueSize() > 0;
 
-    // Capture a new frame to the buffer
+    // Capture Frame
+    // -------------
     if ( !isSaving && shouldCaptureFrame && ofGetElapsedTimef() - lastCaptureTime > SELFIES_CAPTURE_THROTTLE_SEC ) {
-        // Add the onion skin
+        // ### Add Onion Skin
         onionskin.getCurrentFboPtr()->begin();
         ofClear( 0, 0, 0, 0 );
         ofPushMatrix();
@@ -164,7 +169,7 @@ void ofApp::draw () {
         ofPopMatrix();
         onionskin.getCurrentFboPtr()->end();
 
-        // Save to disk
+        // ### Save to disk
 #ifdef TARGET_LINUX_ARM
         ofPixels pix;
         frameFbo.readToPixels( pix );
@@ -177,7 +182,7 @@ void ofApp::draw () {
         
         videoPlayer.nextFrame();
         
-        // Draw the onion skin
+        // ###ÊCreate Onion Skin Overlay
         onionskin.renderAll();
         onionskin.next();
         
@@ -185,21 +190,26 @@ void ofApp::draw () {
         shouldCaptureFrame = false;
     }
     
+    // Onion Skins Overlay
+    // -------------------
     if ( shouldDrawOnionSkin ) {
         onionskin.layer.draw( 0, 0, SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT );
     }
 
-    static int currentFrame = 0;
+    // Animation Preview
+    // -----------------
+    static int previewAnimationFramenumber = 0;
     static float lastUpdate = 0;
     if ( ofGetElapsedTimef() - lastUpdate > 1.0f / 12.0f ) {
-        if ( ++currentFrame >= onionskin.settings.numberFrames ) {
-            currentFrame = 0;
+        if ( ++previewAnimationFramenumber >= onionskin.settings.numberFrames ) {
+            previewAnimationFramenumber = 0;
         }
         lastUpdate = ofGetElapsedTimef();
     }
+    onionskin.fbos[ previewAnimationFramenumber ]->draw( 20, 20, ofGetWidth() * 0.2, ofGetHeight() * 0.2 );
     
-    onionskin.fbos[ currentFrame ]->draw( 20, 20, ofGetWidth() * 0.2, ofGetHeight() * 0.2 );
-    
+    // Debug Instructions/HUD
+    // ----------------------
     if ( shouldDrawHUD ) {
         ofDrawBitmapStringHighlight( "[0-5] Onion Skin Blend", ofPoint( 200, 20 ) );
         ofDrawBitmapStringHighlight( "[o] Toggle Onion Skin", ofPoint( 200, 40 ) );
@@ -208,6 +218,8 @@ void ofApp::draw () {
         ofDrawBitmapStringHighlight( "[h] Show this display", ofPoint( 200, 100 ) );
     }
     
+    // Saving Overlay
+    // --------------
     if ( isSaving ) {
         ofPushStyle();
         ofSetColor( 255, 0, 0 );
@@ -215,12 +227,12 @@ void ofApp::draw () {
         ofPopStyle();
     }
     
-    // Flash on talking image
+    // Camera flash with digits
+    // ------------------------
     if ( ofGetElapsedTimef() - lastCaptureTime < SELFIES_CAPTURE_THROTTLE_SEC ) {
-
         ofPushMatrix();
         ofPushStyle();
-        // Draw overlat
+        // Draw overlay
         ofSetColor( 255, 255, 0, ofMap( ofGetElapsedTimef() - lastCaptureTime, 0, SELFIES_CAPTURE_THROTTLE_SEC, 255, 0 ) );
         ofRect( 0, 0, ofGetWidth(), ofGetHeight() );
         ofPopStyle();
@@ -258,7 +270,7 @@ void ofApp::keyPressed ( int key ) {
         shouldDrawOnionSkin = !shouldDrawOnionSkin;
     }
     else if ( key == 's' ) {
-        shouldSave = true;
+        shouldCreateRecording = true;
     }
     else if ( key == 'h' ) {
         shouldDrawHUD =! shouldDrawHUD;
