@@ -120,7 +120,7 @@ void ofApp::update () {
     }
     // If the current file is finished, queue the next filename
     else {
-        ofLogNotice() << "Video is " << ( activeVideoPlayer->getIsMovieDone()?"done":"not done" ) << " on frame " << activeVideoPlayer->getCurrentFrame();
+        ofLogNotice() << "Video is " << ( activeVideoPlayer->getIsMovieDone()?"done":"not done" ) << " on frame " << ofToString( activeVideoPlayer->getCurrentFrame() ) << " / " << activeVideoPlayer->ofBaseVideoPlayer::getTotalNumFrames();
         if ( activeVideoPlayer->getIsMovieDone() && videoFiles.size() > 0 && !isLoadingNewVideo ) {
             if ( newVideoDisplayCount == 0 ) {
                 playVideo( *this, getNextFilenameInFiles( videoFiles, currentVideoFilename ) );
