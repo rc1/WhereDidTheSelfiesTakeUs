@@ -13,10 +13,10 @@
 #include "ThreadedImageSaver.h"
 #endif
 
-#define SELFIES_CAPTURE_TARGET_DIR "../../../display/bin/data/videos/"
+// #define SELFIES_CAPTURE_TARGET_DIR "../../../display/bin/data/videos/"
 #define SELFIES_CAPTURE_HEIGHT 460
 #define SELFIES_CAPTURE_WIDTH 800
-#define SELFIES_CAPTURE_THROTTLE_SEC 2.0f
+#define SELFIES_CAPTURE_THROTTLE_SEC 0.3f
 #define SELFIES_CAPTURE_DIGIT_IMAGE "CounterDigits.png"
 #define SELFIES_CAPTURE_SAVING_IMAGE "Saving.png"
 

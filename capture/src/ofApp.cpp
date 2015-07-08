@@ -121,47 +121,21 @@ void ofApp::draw () {
     if ( shouldCreateRecording && frameCounter > 5 ) {
         
         // Run a gst pipeline to make the video
-        string makeVideo;
 #ifdef TARGET_LINUX_ARM
-        makeVideo = "gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( "captures/" + ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=0 caps=\"image/png,framerate=\\(fraction\\)15/1\" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
+//        makeVideo = "gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( "captures/" + ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=0 caps=\"image/png,framerate=\\(fraction\\)15/1\" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
+        taskRunner.addCommand( ofToDataPath( "script-gst-pipeline-rpi.sh" ) + " " + ofToString( sequenceStartTime ) + " " + ofToDataPath( "", true ) );
 #else
-        // See INSTALL.md on the mac if this is not working
-        // Note: index is appears to be 0 on OSX
-        makeVideo = "/usr/local/bin/gst-launch-1.0 multifilesrc location=\"" + ofToDataPath( "captures/" + ofToString( sequenceStartTime ) + "-%d.png" ) + "\" index=0 caps=\"image/png,framerate=\\(fraction\\)15/1\" ! pngdec ! videoconvert ! videoflip method=vertical-flip ! videorate ! theoraenc ! oggmux ! filesink location=\"" + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + "\"";
-        ofLogNotice() << makeVideo;
+        taskRunner.addCommand( ofToDataPath( "script-gst-pipeline-mac.sh" ) + " " + ofToString( sequenceStartTime ) + " " + ofToDataPath( "", true ) );
 #endif
-        taskRunner.addCommand( makeVideo );
-        
-        // Remove any zero byte files that make have happened
-        // This will exit with an error if there is nothing there.
-        // this is no problem
-        taskRunner.addCommand( "find " + ofToDataPath( "." ) + " -type f -size 0 | xargs rm" );
-
-        
-        // Set a .lock file in the target video dir (to stop the player app from loading an incomplete viode)
-        taskRunner.addCommand( "touch " + ofToDataPath( SELFIES_CAPTURE_TARGET_DIR ) + "lock" );
-        
-        // Move the files
-        taskRunner.addCommand( "mv " + ofToDataPath( ofToString( sequenceStartTime ) + ".ogg" ) + " " + ofToDataPath( SELFIES_CAPTURE_TARGET_DIR ) );
-        
-        // Remove the lock file
-        taskRunner.addCommand( "rm " + ofToDataPath( SELFIES_CAPTURE_TARGET_DIR ) + "lock" );
         
         // Write the last frame number
-        taskRunner.addCommand( "echo " + ofToString( videoPlayer.getCurrentFrame() ) + " > " + ofToDataPath( "captures/.lastFrame" ) );
-        
-        
-        // ###ÊDelete frame captures
-        // Delete only the sequence files
-        //string deletePngs = "rm " + ofToDataPath( ofToString( sequenceStartTime ) + "-*.png" );
-        // Delete them all
-        string deletePngs = "rm " + ofToDataPath( "captures" ) + "/*.png";
-        ofLogNotice() << "Deleting: " + deletePngs << endl;
-        taskRunner.addCommand( deletePngs );
+        taskRunner.addCommand( "echo " + ofToString( videoPlayer.getCurrentFrame() ) + " > " + ofToDataPath( "captures/.lastFrame" ));
         
         // ## Reset counters
         sequenceStartTime = ofGetUnixTime();
         frameCounter = 0;
+        shouldCreateRecording = false;
+    } else {
         shouldCreateRecording = false;
     }
     
@@ -244,8 +218,11 @@ void ofApp::draw () {
         ofRect( 0, 0, ofGetWidth(), ofGetHeight() );
         ofPopStyle();
         // Draw digits
+        ofPushStyle();
+        ofSetColor( 255, 255, 255, ofMap( ofGetElapsedTimef() - lastCaptureTime, 0, SELFIES_CAPTURE_THROTTLE_SEC, 255, 0 ) );
         ofTranslate( ofGetWidth() / 2.0f, ofGetHeight() / 2.0f );
         drawDigitsCentered( digits, frameCounter );
+        ofPopStyle();
         ofPopMatrix();
     }
 }

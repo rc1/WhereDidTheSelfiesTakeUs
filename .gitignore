@@ -7,6 +7,8 @@ capture/bin/data/*
 !capture/bin/data/.gitkeep
 !capture/bin/data/Saving.png
 !capture/bin/data/CounterDigits.png
+!script-gst-pipeline-mac.sh
+!script-gst-pipeline-rpi.sh
 !capture/bin/data/captures
 capture/bin/data/captures/*
 !capture/bin/data/captures/.gitkeep
