@@ -133,7 +133,10 @@ void ofApp::draw () {
         taskRunner.addCommand( makeVideo );
         
         // Remove any zero byte files that make have happened
+        // This will exit with an error if there is nothing there.
+        // this is no problem
         taskRunner.addCommand( "find " + ofToDataPath( "." ) + " -type f -size 0 | xargs rm" );
+
         
         // Set a .lock file in the target video dir (to stop the player app from loading an incomplete viode)
         taskRunner.addCommand( "touch " + ofToDataPath( SELFIES_CAPTURE_TARGET_DIR ) + "lock" );
