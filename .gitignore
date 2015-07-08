@@ -16,3 +16,6 @@ display/bin/*
 display/bin/data/*
 !display/bin/data/.gitkeep
 !display/bin/data/NewVideo.png
+!display/bin/data/videos
+display/bin/data/videos/*
+!display/bin/data/videos/.gitkeep
