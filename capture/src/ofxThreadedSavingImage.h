@@ -4,7 +4,7 @@
 
 #ifdef TARGET_LINUX_ARM
 
-class ofxThreadedSavingImage : public ofxThread, public ofImage {
+class ofxThreadedSavingImage : public ofThread, public ofImage {
 public:
     string fileName;
     
