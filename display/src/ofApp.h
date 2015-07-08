@@ -5,7 +5,7 @@
 #define SELFIES_DISPLAY_HEIGHT 1366
 #define SELFIES_DISPLAY_WIDTH 768
 #define SELFIES_DISPLAY_VIDEO_DIR "./videos/"
-#define SELFIES_CAPTURE_NEW_VIDEO_IMAGE "newVideo.png"
+#define SELFIES_CAPTURE_NEW_VIDEO_IMAGE "NewVideo.png"
 
 class ofApp : public ofBaseApp {
  public:
