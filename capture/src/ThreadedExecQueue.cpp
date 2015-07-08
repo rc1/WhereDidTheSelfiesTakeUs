@@ -14,7 +14,7 @@ void ThreadedExecQueue::threadedFunction () {
         unlock();
 
         if ( commandToDo != "" ) {
-            printf( "Preforming: %s", commandToDo.c_str() );
+            printf( "Preforming: %s \n", commandToDo.c_str() );
             system( commandToDo.c_str() );
         }
         

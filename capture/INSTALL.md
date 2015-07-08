@@ -21,5 +21,10 @@ Options can be found by typing: `brew info [formula]`
 This needs to be called "Overlay.mov" and placed in the capture apps data folder.
 
 
+## Linux
+
+    apt-get install gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-plugins-base gstreamer1.0-plugins-bad gstreamer1.0-omx gstreamer1.0-tools
+
+
 
     
