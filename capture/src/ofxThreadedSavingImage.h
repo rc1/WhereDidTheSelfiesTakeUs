@@ -1,6 +1,5 @@
 #pragma once
 #include "ofMain.h"
-#include "ofxThread.h"
 
 #ifdef TARGET_LINUX_ARM
 
