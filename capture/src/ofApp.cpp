@@ -22,7 +22,7 @@ inline void drawDigitsCentered( ofImage &image, int number ) {
 
 void ofApp::setup () {
     ofSetLogLevel( OF_LOG_NOTICE );
-
+    
 #ifdef TARGET_LINUX_ARM
     ofLogNotice() << "Using OMX Camera (I am a raspberry pi)" << endl;
     // Camera Settings
@@ -30,7 +30,7 @@ void ofApp::setup () {
     omxCameraSettings.height = SELFIES_CAPTURE_HEIGHT; // default 720
     omxCameraSettings.isUsingTexture = true; //default true
     omxCameraSettings.doRecording = false;   //default false
-
+    
     // Create the grabber
     videoGrabber.setup( omxCameraSettings );
 #else
@@ -38,7 +38,7 @@ void ofApp::setup () {
     videoGrabber.setDeviceID( 0 );
     videoGrabber.initGrabber( SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT );
 #endif
-
+    
     // Onion Skin
     onionSkinSettings.numberFrames = 2;
     onionSkinSettings.show = 2;
@@ -52,7 +52,7 @@ void ofApp::setup () {
 #ifndef TARGET_LINUX_ARM
     shouldDrawHUD = true;
 #endif
-
+    
     frameFbo.allocate( SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT, GL_RGB /*GL_RGBA32F*/ );
     
     videoPlayer.setPixelFormat( OF_PIXELS_RGBA );
@@ -66,18 +66,18 @@ void ofApp::setup () {
         lastVideoFrameNumber = ofToInt( buffer.getText() );
     }
     videoPlayer.setFrame( lastVideoFrameNumber );
-
+    
     onionskin.init( onionSkinSettings );
-
+    
 #ifdef TARGET_OSX
     if( !imageSaver.setup( SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT, 20 ) ) { // last params is number of preallocated frames
         printf( "error: cannot start the screen grab saver.\n" );
         ::exit(EXIT_FAILURE);
     }
 #endif
-
+    
     taskRunner.startThread( true );
-
+    
     digits.loadImage( SELFIES_CAPTURE_DIGIT_IMAGE );
     saving.loadImage( SELFIES_CAPTURE_SAVING_IMAGE );
 }
@@ -87,9 +87,9 @@ void ofApp::exit () {
 }
 
 void ofApp::update () {
-    #ifndef TARGET_LINUX_ARM
+#ifndef TARGET_LINUX_ARM
     videoGrabber.update();
-    #endif
+#endif
     videoPlayer.update();
 }
 
@@ -98,7 +98,7 @@ void ofApp::draw () {
     static int frameCounter = 0;
     static int sequenceStartTime = ofGetUnixTime();
     static float lastCaptureTime = -10000.0f;
-
+    
     // Compose Live Image
     // ------------------
     frameFbo.begin();
@@ -115,7 +115,7 @@ void ofApp::draw () {
     videoPlayer.draw( 0, 0, SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT );
     frameFbo.end();
     frameFbo.draw( 0, 0 );
-
+    
     // Create Recording
     // ----------------
     if ( shouldCreateRecording && frameCounter > 5 ) {
@@ -146,15 +146,15 @@ void ofApp::draw () {
         
         // Write the last frame number
         taskRunner.addCommand( "echo " + ofToString( videoPlayer.getCurrentFrame() ) + " > " + ofToDataPath( "captures/.lastFrame" ) );
-    
-
+        
+        
         // ###ÊDelete frame captures
         // Delete only the sequence files
         //string deletePngs = "rm " + ofToDataPath( ofToString( sequenceStartTime ) + "-*.png" );
         // Delete them all
         string deletePngs = "rm " + ofToDataPath( "captures/*.png" );
         taskRunner.addCommand( deletePngs );
-
+        
         // ## Reset counters
         sequenceStartTime = ofGetUnixTime();
         frameCounter = 0;
@@ -164,7 +164,7 @@ void ofApp::draw () {
     // Update Saving Status
     // --------------------
     bool isSaving = taskRunner.queueSize() > 0;
-
+    
     // Capture Frame
     // -------------
     if ( !isSaving && shouldCaptureFrame && ofGetElapsedTimef() - lastCaptureTime > SELFIES_CAPTURE_THROTTLE_SEC ) {
@@ -177,13 +177,13 @@ void ofApp::draw () {
         
         ofPopMatrix();
         onionskin.getCurrentFboPtr()->end();
-
+        
         // ### Save to disk
 #ifdef TARGET_LINUX_ARM
-//        ofPixels pix;
-//        frameFbo.readToPixels( pix );
-//        ofSaveImage( pix, "captures/" + ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png" );
-        frameFbo.readToPixels( imageSaver.getPixelsRef() );
+        //        ofPixels pix;
+        //        frameFbo.readToPixels( pix );
+        //        ofSaveImage( pix, "captures/" + ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png" );
+        frameFbo.readToPixels( imageSaver.getPixelsRef() );
         imageSaver.saveImage( "captures/" + ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png" );
         ofxThreadedSavingImage
 #else
@@ -248,9 +248,9 @@ void ofApp::draw () {
 }
 
 void ofApp::keyPressed ( int key ) {
-   
+    
     if ( key == ' ' ) {
-         shouldCaptureFrame = true;
+        shouldCaptureFrame = true;
     }
     else if ( key == '0' ) {
         onionskin.settings.blendMode = OF_BLENDMODE_DISABLED;
@@ -282,13 +282,13 @@ void ofApp::keyPressed ( int key ) {
 }
 
 void ofApp::keyReleased ( int key ) {
-
+    
 }
 
 void ofApp::windowResized ( int w, int h ) {
-
+    
 }
 
 void ofApp::gotMessage( ofMessage msg ) {
-
+    
 }
