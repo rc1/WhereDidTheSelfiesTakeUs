@@ -73,14 +73,15 @@ void ofApp::setup () {
     newVideoImage.loadImage( SELFIES_CAPTURE_NEW_VIDEO_IMAGE );
     
     ofSetBackgroundColor( 0 );
+
+    ofLogNotice() << "Setup Complete";
 }
 
 void ofApp::exit () {
     
 }
 
-void ofApp::update () {
-    
+void ofApp::update () {    
     if ( activeVideoPlayer->isLoaded() ) {
         activeVideoPlayer->update();
     }
@@ -103,7 +104,9 @@ void ofApp::update () {
         // still writing the file to disk, so just ignore
         bool hasLockFile = false;
         for ( vector<ofFile>::iterator it = incomingVideoFiles.begin(); it != incomingVideoFiles.end(); ++it ) {
+            // ofLogNotice() << "Incoming file: " << it->getFileName();
             if ( it->getFileName() == "lock" ) {
+                ofLogNotice() << "Has lock file";
                 hasLockFile = true;
                 break;
             }

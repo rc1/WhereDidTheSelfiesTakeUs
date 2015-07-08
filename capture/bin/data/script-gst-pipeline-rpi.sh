@@ -14,7 +14,10 @@ TARGET_DIR="$DATA_PATH../../../display/bin/data/videos"
 touch "$TARGET_DIR/lock"
 
 # Create the file
-gst-launch-1.0 multifilesrc location="$DATA_PATH/captures/$SEQUENCE_ID-%d.png" index=0 caps="image/png,framerate=\(fraction\)15/1" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location="$TARGET_DIR/$SEQUENCE_ID.ogg"
+# gst-launch-1.0 multifilesrc location="$DATA_PATH/captures/$SEQUENCE_ID-%d.png" index=0 caps="image/png,framerate=\(fraction\)15/1" ! pngdec ! videoconvert ! videorate ! theoraenc ! oggmux ! filesink location="$TARGET_DIR/$SEQUENCE_ID.ogg"
+ #gst-launch-1.0 multifilesrc location="$DATA_PATH/captures/$SEQUENCE_ID-%d.png" index=0 caps="image/png,framerate=\(fraction\)15/1" ! pngdec ! videoconvert ! videorate ! omxh264enc ! mpegtsmux ! filesink location="$TARGET_DIR/$SEQUENCE_ID.mp4"
+gst-launch-1.0 multifilesrc location="$DATA_PATH/captures/$SEQUENCE_ID-%d.png" index=0 caps="image/png,framerate=\(fraction\)15/1" ! pngdec ! videoconvert ! videorate ! omxh264enc ! h264parse ! mp4mux ! filesink sync=false location="$TARGET_DIR/$SEQUENCE_ID.mp4"
+
 
 # Remove any zero byte files (including lock file)
 find $TARGET_DIR -type f -size 0 -not -path '*/\.*' | xargs rm
