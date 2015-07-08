@@ -47,7 +47,7 @@ inline string getPreviousFilenameInFiles( const vector<ofFile> &files, const str
 inline void playVideo( ofApp &app, string filename ) {
     app.nextUpVideoPath = ofToDataPath( SELFIES_DISPLAY_VIDEO_DIR + filename );
     app.currentVideoFilename = filename;
-    ofLogVerbose() << "Next Up Video: " << filename;
+    ofLogNotice() << "Next Up Video: " << filename;
 }
 
 // ofApp
