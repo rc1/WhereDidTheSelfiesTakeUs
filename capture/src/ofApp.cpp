@@ -40,10 +40,10 @@ void ofApp::setup () {
 #endif
 
     // Onion Skin
-    onionSkinSettings.numberFrames = 12 * 3;
-    onionSkinSettings.show = 4;
-    onionSkinSettings.width = SELFIES_CAPTURE_WIDTH / 4;
-    onionSkinSettings.height = SELFIES_CAPTURE_HEIGHT / 4;
+    onionSkinSettings.numberFrames = 2;
+    onionSkinSettings.show = 2;
+    onionSkinSettings.width = SELFIES_CAPTURE_WIDTH;
+    onionSkinSettings.height = SELFIES_CAPTURE_HEIGHT;
     
     shouldCaptureFrame = false;
     shouldDrawOnionSkin = true;
@@ -202,20 +202,8 @@ void ofApp::draw () {
     // Onion Skins Overlay
     // -------------------
     if ( shouldDrawOnionSkin ) {
-        onionskin.layer.draw( 0, 0, SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT );
+        onionskin.layer.draw( 0, 0, ofGetWidth(), ofGetHeight() );
     }
-
-    // Animation Preview
-    // -----------------
-    static int previewAnimationFramenumber = 0;
-    static float lastUpdate = 0;
-    if ( ofGetElapsedTimef() - lastUpdate > 1.0f / 12.0f ) {
-        if ( ++previewAnimationFramenumber >= onionskin.settings.numberFrames ) {
-            previewAnimationFramenumber = 0;
-        }
-        lastUpdate = ofGetElapsedTimef();
-    }
-    onionskin.fbos[ previewAnimationFramenumber ]->draw( 20, 20, ofGetWidth() * 0.2, ofGetHeight() * 0.2 );
     
     // Debug Instructions/HUD
     // ----------------------
