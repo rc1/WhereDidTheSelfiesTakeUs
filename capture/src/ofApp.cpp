@@ -152,7 +152,7 @@ void ofApp::draw () {
         // Delete only the sequence files
         //string deletePngs = "rm " + ofToDataPath( ofToString( sequenceStartTime ) + "-*.png" );
         // Delete them all
-        string deletePngs = "rm " + ofToDataPath( "captures" ) + "*.png";
+        string deletePngs = "rm " + ofToDataPath( "captures" ) + "/*.png";
         ofLogNotice() << "Deleting: " + deletePngs << endl;
         taskRunner.addCommand( deletePngs );
         
