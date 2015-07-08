@@ -80,9 +80,13 @@ void ofApp::exit () {
 
 void ofApp::update () {
     
-    if ( activeVideoPlayer->isLoaded() ) {
-        activeVideoPlayer->update();
-    }
+    videoPlayerA.update();
+    videoPlayerB.update();
+    
+    
+//    if ( activeVideoPlayer->isLoaded() ) {
+//        activeVideoPlayer->update();
+//    }
     
     // List of all video files
     static vector<ofFile> videoFiles;
@@ -120,7 +124,6 @@ void ofApp::update () {
     }
     // If the current file is finished, queue the next filename
     else {
-        ofLogNotice() << "Video is " << ( activeVideoPlayer->getIsMovieDone()?"done":"not done" ) << " on frame " << activeVideoPlayer->getCurrentFrame();
         if ( activeVideoPlayer->getIsMovieDone() && videoFiles.size() > 0 && !isLoadingNewVideo ) {
             if ( newVideoDisplayCount == 0 ) {
                 playVideo( *this, getNextFilenameInFiles( videoFiles, currentVideoFilename ) );
