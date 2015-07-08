@@ -1,5 +1,7 @@
 #include "ofApp.h"
+#ifdef TARGET_OSX
 #include "ofGstVideoPlayer.h"
+#endif
 
 // Utils
 // =====
@@ -55,8 +57,10 @@ inline void playVideo( ofApp &app, string filename ) {
 
 void ofApp::setup () {
     ofSetLogLevel( OF_LOG_NOTICE );
+#ifdef TARGET_OSX
     videoPlayerA.setPlayer( ofPtr<ofGstVideoPlayer>( new ofGstVideoPlayer ) );
     videoPlayerB.setPlayer( ofPtr<ofGstVideoPlayer>( new ofGstVideoPlayer ) );
+#endif
     activeVideoPlayer = &videoPlayerA;
     inactiveVideoPlayer = &videoPlayerB;
     
