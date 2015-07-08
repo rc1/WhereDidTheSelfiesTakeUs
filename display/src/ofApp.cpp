@@ -94,6 +94,7 @@ void ofApp::update () {
     if ( reloadDirTime.resetIfExpired() && !isLoadingNewVideo ) {
         
         ofDirectory d;
+        d.setShowHidden( false );
         d.listDir( SELFIES_DISPLAY_VIDEO_DIR );
         vector<ofFile> incomingVideoFiles = d.getFiles();
         
@@ -121,10 +122,9 @@ void ofApp::update () {
     }
     // If the current file is finished, queue the next filename
     else {
-        ofLogNotice() << "Position: " << activeVideoPlayer->getPosition();
         
         //ofLogNotice() << "Video is " << ( activeVideoPlayer->getIsMovieDone()?"done":"not done" ) << " on frame " << ofToString( activeVideoPlayer->getCurrentFrame() ) << " / " << ofToString( activeVideoPlayer->ofBaseVideoPlayer::getTotalNumFrames() ) << " duration is: " << activeVideoPlayer->getDuration();
-        if ( activeVideoPlayer->getPosition() >= 0.99 && videoFiles.size() > 0 && !isLoadingNewVideo ) {
+        if ( activeVideoPlayer->getIsMovieDone() && videoFiles.size() > 0 && !isLoadingNewVideo ) {
             if ( newVideoDisplayCount == 0 ) {
                 playVideo( *this, getNextFilenameInFiles( videoFiles, currentVideoFilename ) );
             }
