@@ -184,7 +184,7 @@ void ofApp::draw () {
         //        frameFbo.readToPixels( pix );
         //        ofSaveImage( pix, "captures/" + ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png" );
         frameFbo.readToPixels( saveImage.getPixelsRef() );
-        saveImage.saveImage( "captures/" + ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png" );
+        saveImage.saveThreaded( "captures/" + ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png" );
 #else
         if ( !imageSaver.grabFbo( "captures/" + ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png", frameFbo ) ) {
             ofLogError() << "Failed to grab screen. Maybe screen grab buffer is set to low";
