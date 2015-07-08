@@ -22,9 +22,6 @@ inline void drawDigitsCentered( ofImage &image, int number ) {
 
 void ofApp::setup () {
     ofSetLogLevel( OF_LOG_NOTICE );
-    
-    digits.loadImage( SELFIES_CAPTURE_DIGIT_IMAGE );
-    saving.loadImage( SELFIES_CAPTURE_SAVING_IMAGE );
 
 #ifdef TARGET_LINUX_ARM
     ofLogNotice() << "Using OMX Camera (I am a raspberry pi)" << endl;
@@ -56,7 +53,7 @@ void ofApp::setup () {
     shouldDrawHUD = true;
 #endif
 
-    frameFbo.allocate( SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT, GL_RGB, OF_PIXELS_BGRA /*GL_RGBA32F*/ );
+    frameFbo.allocate( SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT, GL_RGB /*GL_RGBA32F*/ );
     
     videoPlayer.setPixelFormat( OF_PIXELS_RGBA );
     videoPlayer.loadMovie( "Overlay.mov" );
@@ -80,6 +77,9 @@ void ofApp::setup () {
 #endif
 
     taskRunner.startThread( true );
+
+    digits.loadImage( SELFIES_CAPTURE_DIGIT_IMAGE );
+    saving.loadImage( SELFIES_CAPTURE_SAVING_IMAGE );
 }
 
 void ofApp::exit () {
