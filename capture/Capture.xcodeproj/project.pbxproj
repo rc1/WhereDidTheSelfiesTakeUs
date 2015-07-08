@@ -86,6 +86,7 @@
 		91E655C31B3324F600374359 /* INSTALL.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = INSTALL.md; sourceTree = SOURCE_ROOT; };
 		91E655CF1B333FBD00374359 /* ThreadedImageSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadedImageSaver.h; sourceTree = "<group>"; };
 		91E655D01B333FBD00374359 /* ThreadedImageSaver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadedImageSaver.cpp; sourceTree = "<group>"; };
+		91EF18261B4D614C007BEE73 /* ofxThreadedSavingImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxThreadedSavingImage.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -237,6 +238,7 @@
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				91E655CF1B333FBD00374359 /* ThreadedImageSaver.h */,
+				91EF18261B4D614C007BEE73 /* ofxThreadedSavingImage.h */,
 				91E655D01B333FBD00374359 /* ThreadedImageSaver.cpp */,
 				917E66F11B33082D0003D717 /* ThreadedExecQueue.h */,
 				917E66F21B33082D0003D717 /* ThreadedExecQueue.cpp */,

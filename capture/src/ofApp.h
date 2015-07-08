@@ -6,6 +6,7 @@
 
 #ifdef TARGET_LINUX_ARM
 #include "ofxRPiCameraVideoGrabber.h"
+#include "ofxThreadedSavingImage.h"
 #endif
 
 #ifdef TARGET_OSX
@@ -46,6 +47,10 @@ class ofApp : public ofBaseApp {
     ofVideoPlayer videoPlayer;
     ofImage digits;
     ofImage saving;
+    
+#ifdef TARGET_LINUX_ARM
+    ofxThreadedSavingImage saveImage;
+#endif
 
 #ifdef TARGET_OSX
     ThreadedImageSaver imageSaver;

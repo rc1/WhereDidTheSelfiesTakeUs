@@ -180,9 +180,12 @@ void ofApp::draw () {
 
         // ### Save to disk
 #ifdef TARGET_LINUX_ARM
-        ofPixels pix;
-        frameFbo.readToPixels( pix );
-        ofSaveImage( pix, "captures/" + ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png" );
+//        ofPixels pix;
+//        frameFbo.readToPixels( pix );
+//        ofSaveImage( pix, "captures/" + ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png" );
+        frameFbo.readToPixels( imageSaver.getPixelsRef() );
+        imageSaver.saveImage( "captures/" + ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png" );
+        ofxThreadedSavingImage
 #else
         if ( !imageSaver.grabFbo( "captures/" + ofToString( sequenceStartTime ) + "-" + ofToString( frameCounter++ ) + ".png", frameFbo ) ) {
             ofLogError() << "Failed to grab screen. Maybe screen grab buffer is set to low";
