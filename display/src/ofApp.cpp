@@ -47,9 +47,10 @@ inline string getPreviousFilenameInFiles( const vector<ofFile> &files, const str
 }
 
 inline void playVideo( ofApp &app, string filename ) {
+    ofLogNotice() << "Next Up Video: " << filename;
+    ofLogNotice() << "Will load: " << ofToDataPath( SELFIES_DISPLAY_VIDEO_DIR + filename );
     app.nextUpVideoPath = ofToDataPath( SELFIES_DISPLAY_VIDEO_DIR + filename );
     app.currentVideoFilename = filename;
-    ofLogNotice() << "Next Up Video: " << filename;
 }
 
 // ofApp
@@ -120,8 +121,10 @@ void ofApp::update () {
     }
     // If the current file is finished, queue the next filename
     else {
-        ofLogNotice() << "Video is " << ( activeVideoPlayer->getIsMovieDone()?"done":"not done" ) << " on frame " << ofToString( activeVideoPlayer->getCurrentFrame() ) << " / " << activeVideoPlayer->ofBaseVideoPlayer::getTotalNumFrames();
-        if ( activeVideoPlayer->getIsMovieDone() && videoFiles.size() > 0 && !isLoadingNewVideo ) {
+        ofLogNotice() << "Position: " << activeVideoPlayer->getPosition();
+        
+        //ofLogNotice() << "Video is " << ( activeVideoPlayer->getIsMovieDone()?"done":"not done" ) << " on frame " << ofToString( activeVideoPlayer->getCurrentFrame() ) << " / " << ofToString( activeVideoPlayer->ofBaseVideoPlayer::getTotalNumFrames() ) << " duration is: " << activeVideoPlayer->getDuration();
+        if ( activeVideoPlayer->getPosition() >= 0.99 && videoFiles.size() > 0 && !isLoadingNewVideo ) {
             if ( newVideoDisplayCount == 0 ) {
                 playVideo( *this, getNextFilenameInFiles( videoFiles, currentVideoFilename ) );
             }
@@ -135,7 +138,6 @@ void ofApp::update () {
                 --newVideoDisplayCount;
             }
             else {
-                ofLogNotice() << newVideoDisplayCount;
                 activeVideoPlayer->setFrame( 0 );
                 activeVideoPlayer->play();
                 --newVideoDisplayCount;
@@ -149,11 +151,14 @@ void ofApp::update () {
     // by first closing the video player, then
     // once it has closed (later) load the next
     if ( nextUpVideoPath != "" ) {
+        ofLogNotice() << "Actioning the loading of: " << nextUpVideoPath;
         if ( !isLoadingNewVideo ) {
+            ofLogNotice() << "not loading";
             activeVideoPlayer->stop();
             inactiveVideoPlayer->loadMovie( nextUpVideoPath );
             isLoadingNewVideo = true;
         } else if ( inactiveVideoPlayer->isLoaded() ) {
+            ofLogNotice() << "is loaded";
             activeVideoPlayer->close();
             inactiveVideoPlayer->play();
             // Swap pointer
@@ -162,6 +167,9 @@ void ofApp::update () {
             inactiveVideoPlayer = swap;
             isLoadingNewVideo = false;
             nextUpVideoPath = "";
+        }
+        else {
+            ofLogNotice() << "Don't know what to do";
         }
     }
 }
