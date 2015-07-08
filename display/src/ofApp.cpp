@@ -37,7 +37,7 @@ inline string getNextFilenameInFiles( const vector<ofFile> &files, const string 
 
 inline string getPreviousFilenameInFiles( const vector<ofFile> &files, const string currentFilename ) {
     if ( files.size() == 0 ) { return ""; }
-    unsigned int idx = 0;
+    int idx = 0;
     for ( ; idx < files.size(); ++idx ) {
         if ( files[ idx ].getFileName() == currentFilename ) {
             break;
@@ -120,6 +120,7 @@ void ofApp::update () {
     }
     // If the current file is finished, queue the next filename
     else {
+        ofLogNotice() << "Video is " << ( activeVideoPlayer->getIsMovieDone()?"done":"not done" ) << " on frame " << activeVideoPlayer->getCurrentFrame();
         if ( activeVideoPlayer->getIsMovieDone() && videoFiles.size() > 0 && !isLoadingNewVideo ) {
             if ( newVideoDisplayCount == 0 ) {
                 playVideo( *this, getNextFilenameInFiles( videoFiles, currentVideoFilename ) );
