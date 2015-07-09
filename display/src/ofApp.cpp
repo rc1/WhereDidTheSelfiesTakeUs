@@ -58,8 +58,9 @@ bool isNotMovieFile ( const ofFile &file ) {
     return ext != "mov" && ext != "mp4" && ext != "avi" && ext != "ogg";
 }
 
-// Video Shims
+// Video Utils
 // ===========
+// To allow ofxOMXPlayer or ofVideoPlayer
 
 #ifdef TARGET_OSX
 inline bool videoPlayerIsLoaded ( ofVideoPlayer &videoPlayer ) {
@@ -125,6 +126,8 @@ void ofApp::setup () {
     ofxOMXPlayerSettings playerSettings;
     playerSettings.enableAudio = false;
     playerSettings.enableLooping = false;
+    videoPlayerA.setup( playerSettings );
+    videoPlayerB.setup( playerSettings );
 #endif
     
     activeVideoPlayer = &videoPlayerA;
