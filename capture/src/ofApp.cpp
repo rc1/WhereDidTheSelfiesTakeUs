@@ -119,9 +119,12 @@ void ofApp::update () {
 #ifdef TARGET_OSX
     videoGrabber.update();
 #else
-    shouldCaptureFrame = !digitalRead( SELFIES_BUTTON_CAPTURE_PYS_PIN );
-    ofLogNotice() << ofToString( SELFIES_BUTTON_CAPTURE_PYS_PIN ) << " is " << ( digitalRead( SELFIES_BUTTON_CAPTURE_PYS_PIN ) ? "off":"on" );
-    shouldCreateRecording = !digitalRead( SELFIES_BUTTON_SAVE_PYS_PIN );
+    if ( !digitalRead( SELFIES_BUTTON_CAPTURE_PYS_PIN ) ) {
+        shouldCaptureFrame = true;
+    }
+    if ( !digitalRead( SELFIES_BUTTON_SAVE_PYS_PIN ) ) {
+        shouldCreateRecording = true;
+    }
 #endif
     videoPlayer.update();
 }
