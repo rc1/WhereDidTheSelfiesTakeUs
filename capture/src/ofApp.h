@@ -41,6 +41,8 @@ public:
     ofImage digits;
     ofImage saving;
     
+    int frameCounter;
+    
 #ifdef TARGET_LINUX_ARM
     ofxThreadedSavingImage saveImage;
 #endif

@@ -11,12 +11,14 @@
 #ifdef TARGET_OSX
     #define SELFIES_CAPTURE_THROTTLE_SEC 0.3f
 #else
-    #define SELFIES_CAPTURE_THROTTLE_SEC 2.0f
+    #define SELFIES_CAPTURE_THROTTLE_SEC 1.3f
 #endif
 #define SELFIES_CAPTURE_DIGIT_IMAGE "CounterDigits.png"
 #define SELFIES_CAPTURE_SAVING_IMAGE "Saving.png"
 #define SELFIES_BUTTON_CAPTURE_PYS_PIN 31
 #define SELFIES_BUTTON_SAVE_PYS_PIN 29
+#define SELFIES_BUTTON_LED_PYS_PIN 35
+#define SELFIES_MIN_FRAME_COUNT 6
 
 // Utils
 // =====
@@ -70,6 +72,7 @@ void ofApp::setup () {
 #ifndef TARGET_LINUX_ARM
     shouldDrawHUD = true;
 #endif
+    frameCounter = 0;
     
     frameFbo.allocate( SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT, GL_RGB /*GL_RGBA32F*/ );
     
@@ -107,6 +110,7 @@ void ofApp::setup () {
         ofLogNotice( "Wiring Pi Enabled" );
         pinMode( SELFIES_BUTTON_CAPTURE_PYS_PIN, INPUT );
         pinMode( SELFIES_BUTTON_SAVE_PYS_PIN, INPUT );
+        pinMode( SELFIES_BUTTON_LED_PYS_PIN, OUTPUT );
     }
 #endif
 }
@@ -125,13 +129,16 @@ void ofApp::update () {
     if ( !digitalRead( SELFIES_BUTTON_SAVE_PYS_PIN ) ) {
         shouldCreateRecording = true;
     }
+    static float lastLedUpdateTime = 0.0f;
+    if ( ofGetElapsedTimef() - lastLedUpdateTime > 500 ) {
+        digitalWrite( SELFIES_BUTTON_LED_PYS_PIN, frameCounter > SELFIES_MIN_FRAME_COUNT );
+        lastLedUpdateTime = ofGetElapsedTimef();
+    }
 #endif
     videoPlayer.update();
 }
 
 void ofApp::draw () {
-    
-    static int frameCounter = 0;
     static int sequenceStartTime = ofGetUnixTime();
     static float lastCaptureTime = -10000.0f;
     ofRectangle screenRectangle( 0, 0, SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT );
@@ -166,7 +173,7 @@ void ofApp::draw () {
     
     // Create Recording
     // ----------------
-    if ( shouldCreateRecording && frameCounter > 5 ) {
+    if ( shouldCreateRecording && frameCounter > SELFIES_MIN_FRAME_COUNT ) {
         
         // Run a gst pipeline to make the video
 #ifdef TARGET_LINUX_ARM
