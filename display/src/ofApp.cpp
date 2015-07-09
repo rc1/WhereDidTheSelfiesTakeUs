@@ -4,6 +4,14 @@
 #include "ofGstVideoPlayer.h"
 #endif
 
+// Config
+// ======
+#define MAX_VIDEOS 50
+#define SELFIES_DISPLAY_HEIGHT 1366
+#define SELFIES_DISPLAY_WIDTH 768
+#define SELFIES_DISPLAY_VIDEO_DIR "./videos/"
+#define SELFIES_CAPTURE_NEW_VIDEO_IMAGE "NewVideo.png"
+
 // Utils
 // =====
 
@@ -127,7 +135,7 @@ void ofApp::setup () {
     playerSettings.enableAudio = false;
     playerSettings.enableLooping = false;
     videoPlayerA.setup( playerSettings );
-    videoPlayerB.setup( playerSettings );
+    videoPlayerB.setup( playerSettings );
 #endif
     
     activeVideoPlayer = &videoPlayerA;
@@ -147,7 +155,7 @@ void ofApp::setup () {
 #ifdef TARGET_LINUX_ARM
     ofHideCursor();
 #endif
-
+    
     ofLogNotice() << "Setup Complete";
 }
 
@@ -198,7 +206,10 @@ void ofApp::update () {
         
         // Filter any video what are not movie files
         incomingVideoFiles.erase( remove_if( incomingVideoFiles.begin(), incomingVideoFiles.end(), isNotMovieFile ), incomingVideoFiles.end() );
-
+        
+        // Only keep the 50 newest
+        incomingVideoFiles.resize( MAX_VIDEOS );
+        
         if ( !hasLockFile ) {
             // Find if any files have changed
             vector<ofFile> differentFiles;
@@ -271,7 +282,7 @@ void ofApp::draw () {
     ofRectangle windowRectangle( 0, 0, ofGetWidth(), ofGetHeight() );
     ofRectangle videoRectangle( 0, 0, activeVideoPlayer->getWidth(), activeVideoPlayer->getHeight() );
     windowRectangle.scaleTo( windowRectangle, OF_SCALEMODE_FILL );
-
+    
     activeVideoPlayer->draw( windowRectangle.getX(), windowRectangle.getY(), windowRectangle.getWidth(), windowRectangle.getHeight() );
     
     if ( newVideoDisplayCount > 0 ) {
@@ -280,7 +291,7 @@ void ofApp::draw () {
 }
 
 void ofApp::keyPressed ( int key ) {
-  
+    
 }
 
 void ofApp::keyReleased ( int key ) {
@@ -290,9 +301,9 @@ void ofApp::keyReleased ( int key ) {
 }
 
 void ofApp::windowResized ( int w, int h ) {
-
+    
 }
 
 void ofApp::gotMessage( ofMessage msg ) {
-
+    
 }
