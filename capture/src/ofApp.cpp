@@ -11,11 +11,7 @@
 #ifdef TARGET_OSX
     #define SELFIES_CAPTURE_THROTTLE_SEC 0.3f
 #else
-<<<<<<< HEAD
     #define SELFIES_CAPTURE_THROTTLE_SEC 0.3f
-=======
-    #define SELFIES_CAPTURE_THROTTLE_SEC 2.0f
->>>>>>> bf36d310301fdc668e91da19389025324119f3b4
 #endif
 #define SELFIES_CAPTURE_DIGIT_IMAGE "CounterDigits.png"
 #define SELFIES_CAPTURE_SAVING_IMAGE "Saving.png"
@@ -203,9 +199,17 @@ void ofApp::draw () {
     // --------------------
     bool isSaving = taskRunner.queueSize() > 0;
     
+#ifdef TARGET_LINUX_ARM
+    if ( saveImage.isThreadRunning() ) {
+        lastCaptureTime = ofGetElapsedTimef();
+    }
+#endif
+    
     // Capture Frame
     // -------------
-    if ( !isSaving && shouldCaptureFrame && ofGetElapsedTimef() - lastCaptureTime > SELFIES_CAPTURE_THROTTLE_SEC ) {
+    if ( !isSaving
+         && shouldCaptureFrame
+         && ofGetElapsedTimef() - lastCaptureTime > SELFIES_CAPTURE_THROTTLE_SEC ) {
         // ### Add Onion Skin
         onionskin.getCurrentFboPtr()->begin();
         ofClear( 0, 0, 0, 0 );
