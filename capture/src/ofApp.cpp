@@ -131,6 +131,7 @@ void ofApp::update () {
     }
     static float lastLedUpdateTime = 0.0f;
     if ( ofGetElapsedTimef() - lastLedUpdateTime > 500 ) {
+        ofLogVerbose() << frameCounter > SELFIES_MIN_FRAME_COUNT  ? "high" : "low" ;
         digitalWrite( SELFIES_BUTTON_LED_PYS_PIN, frameCounter > SELFIES_MIN_FRAME_COUNT );
         lastLedUpdateTime = ofGetElapsedTimef();
     }
