@@ -6,8 +6,8 @@
 // Config
 // ======
 
-#define SELFIES_CAPTURE_HEIGHT 460
 #define SELFIES_CAPTURE_WIDTH 800
+#define SELFIES_CAPTURE_HEIGHT 480
 #ifdef TARGET_OSX
     #define SELFIES_CAPTURE_THROTTLE_SEC 0.3f
 #else
@@ -131,24 +131,33 @@ void ofApp::draw () {
     static int frameCounter = 0;
     static int sequenceStartTime = ofGetUnixTime();
     static float lastCaptureTime = -10000.0f;
+    ofRectangle screenRectangle( 0, 0, SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT );
     
     // Compose Live Image
     // ------------------
     frameFbo.begin();
     
+    // Scale to fill and centre
+    ofRectangle grabberRectangle( 0, 0, videoGrabber.getWidth(), videoGrabber.getHeight() );
+    grabberRectangle.scaleTo( screenRectangle, OF_SCALEMODE_FILL );
+    
+    // Flip the camera, so it's like a mirror
     ofPushMatrix();
-    ofTranslate( -float( videoGrabber.getWidth() ) / 2.0f, -float( videoGrabber.getHeight() ) / 2.0f );
-        
     ofScale( -1, 1, 1 );
-    ofTranslate( -SELFIES_CAPTURE_WIDTH, 0 );
+    ofTranslate( -ofGetWidth(), 0 );
 #ifdef TARGET_LINUX_ARM
-    videoGrabber.draw();
+    videoGrabber.draw( grabberRectangle );
 #else
-    videoGrabber.draw( 0, 0 );
+    videoGrabber.draw( grabberRectangle );
 #endif
     ofPopMatrix();
     
-    videoPlayer.draw( 0, 0, SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT );
+    // Scale to fill and centre
+    ofRectangle videoRectangle( 0, 0, videoPlayer.getWidth(), videoPlayer.getHeight() );
+    videoRectangle.scaleTo( screenRectangle, OF_SCALEMODE_FILL );
+
+    videoPlayer.draw( videoRectangle );
+    
     frameFbo.end();
     frameFbo.draw( 0, 0 );
     
