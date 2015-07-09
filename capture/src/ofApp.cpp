@@ -1,4 +1,22 @@
 #include "ofApp.h"
+#ifdef TARGET_LINUX_ARM
+#include "wiringPi.h"
+#endif
+
+// Config
+// ======
+
+#define SELFIES_CAPTURE_HEIGHT 460
+#define SELFIES_CAPTURE_WIDTH 800
+#ifdef TARGET_OSX
+    #define SELFIES_CAPTURE_THROTTLE_SEC 0.3f
+#else
+    #define SELFIES_CAPTURE_THROTTLE_SEC 2.0f
+#endif
+#define SELFIES_CAPTURE_DIGIT_IMAGE "CounterDigits.png"
+#define SELFIES_CAPTURE_SAVING_IMAGE "Saving.png"
+#define SELFIES_BUTTON_CAPTURE_PYS_PIN 31
+#define SELFIES_BUTTON_SAVE_PYS_PIN 29
 
 // Utils
 // =====
@@ -80,6 +98,17 @@ void ofApp::setup () {
     
     digits.loadImage( SELFIES_CAPTURE_DIGIT_IMAGE );
     saving.loadImage( SELFIES_CAPTURE_SAVING_IMAGE );
+
+#ifdef TARGET_LINUX_ARM
+    if ( wiringPiSetupPhys() == -1 ) {
+        ofLogNotice( "Failed to enabled WiringPi" );
+        ::exit(EXIT_FAILURE);
+    } else {
+        ofLogNotice( "Wiring Pi Enabled" );
+        pinMode( SELFIES_BUTTON_CAPTURE_PYS_PIN, INPUT );
+        pinMode( SELFIES_BUTTON_SAVE_PYS_PIN, INPUT );
+    }
+#endif
 }
 
 void ofApp::exit () {
@@ -87,8 +116,12 @@ void ofApp::exit () {
 }
 
 void ofApp::update () {
-#ifndef TARGET_LINUX_ARM
+#ifdef TARGET_OSX
     videoGrabber.update();
+#else
+    shouldCaptureFrame = !digitalRead( SELFIES_BUTTON_CAPTURE_PYS_PIN );
+    ofLogNotice() << ofToString( SELFIES_BUTTON_CAPTURE_PYS_PIN ) << " is " << ( digitalRead( SELFIES_BUTTON_CAPTURE_PYS_PIN ) ? "off":"on" );
+    shouldCreateRecording = !digitalRead( SELFIES_BUTTON_SAVE_PYS_PIN );
 #endif
     videoPlayer.update();
 }
@@ -102,7 +135,10 @@ void ofApp::draw () {
     // Compose Live Image
     // ------------------
     frameFbo.begin();
+    
     ofPushMatrix();
+    ofTranslate( -float( videoGrabber.getWidth() ) / 2.0f, -float( videoGrabber.getHeight() ) / 2.0f );
+        
     ofScale( -1, 1, 1 );
     ofTranslate( -SELFIES_CAPTURE_WIDTH, 0 );
 #ifdef TARGET_LINUX_ARM
