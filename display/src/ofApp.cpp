@@ -58,6 +58,61 @@ bool isNotMovieFile ( const ofFile &file ) {
     return ext != "mov" && ext != "mp4" && ext != "avi" && ext != "ogg";
 }
 
+// Video Shims
+// ===========
+
+#ifdef TARGET_OSX
+inline bool videoPlayerIsLoaded ( ofVideoPlayer &videoPlayer ) {
+    return videoPlayer.isLoaded();
+}
+#else
+inline bool videoPlayerIsLoaded ( ofxOMXPlayer &videoPlayer ) {
+    return videoPlayer.isOpen();
+}
+#endif
+
+#ifdef TARGET_OSX
+inline bool videoPlayerIsDone ( ofVideoPlayer &videoPlayer ) {
+    return videoPlayer.getIsMovieDone();
+}
+#else
+inline bool videoPlayerIsDone ( ofxOMXPlayer &videoPlayer ) {
+    return videoPlayer.getCurrentFrame() == videoPlayer.getTotalNumFrames() - 1;
+}
+#endif
+
+#ifdef TARGET_OSX
+inline void restartVideoPlayer ( ofVideoPlayer &videoPlayer ) {
+    videoPlayer.setFrame( 0 );
+    videoPlayer.play();
+}
+#else
+inline void restartVideoPlayer ( ofxOMXPlayer &videoPlayer ) {
+    videoPlayer.restartMovie();
+}
+#endif
+
+#ifdef TARGET_OSX
+inline void playVideoPlayer ( ofVideoPlayer &videoPlayer ) {
+    videoPlayer.play();
+}
+#else
+inline void playVideoPlayer ( ofxOMXPlayer &videoPlayer ) {
+    videoPlayer.setIsPause( false );
+}
+#endif
+
+#ifdef TARGET_OSX
+inline void stopVideoPlayer ( ofVideoPlayer &videoPlayer ) {
+    return videoPlayer.stop();
+}
+#else
+inline void stopVideoPlayer ( ofxOMXPlayer &videoPlayer ) {
+    videoPlayer.setIsPause( true );
+}
+#endif
+
+
 // ofApp
 // =====
 
@@ -66,7 +121,12 @@ void ofApp::setup () {
 #ifdef TARGET_OSX
     videoPlayerA.setPlayer( ofPtr<ofGstVideoPlayer>( new ofGstVideoPlayer ) );
     videoPlayerB.setPlayer( ofPtr<ofGstVideoPlayer>( new ofGstVideoPlayer ) );
+#else
+    ofxOMXPlayerSettings playerSettings;
+    playerSettings.enableAudio = false;
+    playerSettings.enableLooping = false;
 #endif
+    
     activeVideoPlayer = &videoPlayerA;
     inactiveVideoPlayer = &videoPlayerB;
     
@@ -92,10 +152,13 @@ void ofApp::exit () {
     
 }
 
-void ofApp::update () {    
-    if ( activeVideoPlayer->isLoaded() ) {
+void ofApp::update () {
+    
+#ifdef TARGET_OSX
+    if ( videoPlayerIsLoaded( *activeVideoPlayer ) ) {
         activeVideoPlayer->update();
     }
+#endif
     
     // List of all video files
     static vector<ofFile> videoFiles;
@@ -148,7 +211,7 @@ void ofApp::update () {
     // If the current file is finished, queue the next filename
     else {
         
-        if ( activeVideoPlayer->getIsMovieDone() && videoFiles.size() > 0 && !isLoadingNewVideo ) {
+        if ( videoPlayerIsDone( *activeVideoPlayer ) && videoFiles.size() > 0 && !isLoadingNewVideo ) {
             if ( newVideoDisplayCount == 0 ) {
                 playVideo( *this, getNextFilenameInFiles( videoFiles, currentVideoFilename ) );
             }
@@ -162,8 +225,7 @@ void ofApp::update () {
                 --newVideoDisplayCount;
             }
             else {
-                activeVideoPlayer->setFrame( 0 );
-                activeVideoPlayer->play();
+                restartVideoPlayer( *activeVideoPlayer );
                 --newVideoDisplayCount;
             }
         }
@@ -177,14 +239,21 @@ void ofApp::update () {
     if ( nextUpVideoPath != "" ) {
         ofLogNotice() << "Actioning the loading of: " << nextUpVideoPath;
         if ( !isLoadingNewVideo ) {
-            activeVideoPlayer->stop();
+            stopVideoPlayer( *activeVideoPlayer );
             inactiveVideoPlayer->loadMovie( nextUpVideoPath );
             isLoadingNewVideo = true;
-        } else if ( inactiveVideoPlayer->isLoaded() ) {
+        } else if ( videoPlayerIsLoaded( *inactiveVideoPlayer ) ) {
+#ifdef TARGET_OSX
             activeVideoPlayer->close();
-            inactiveVideoPlayer->play();
-            // Swap pointer
+#endif
+            playVideoPlayer( *inactiveVideoPlayer );
+            
+            // Swap pointers
+#ifdef TARGET_OSX
             ofVideoPlayer *swap = activeVideoPlayer;
+#else
+            ofxOMXPlayer *swap = activeVideoPlayer;
+#endif
             activeVideoPlayer = inactiveVideoPlayer;
             inactiveVideoPlayer = swap;
             isLoadingNewVideo = false;
