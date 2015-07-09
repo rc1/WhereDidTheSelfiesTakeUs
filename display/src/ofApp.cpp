@@ -1,4 +1,5 @@
 #include "ofApp.h"
+#include "Poco/File.h"
 #ifdef TARGET_OSX
 #include "ofGstVideoPlayer.h"
 #endif
@@ -51,6 +52,12 @@ inline void playVideo( ofApp &app, string filename ) {
     ofLogNotice() << "Will load: " << ofToDataPath( SELFIES_DISPLAY_VIDEO_DIR + filename );
     app.nextUpVideoPath = ofToDataPath( SELFIES_DISPLAY_VIDEO_DIR + filename );
     app.currentVideoFilename = filename;
+}
+
+bool isNotMovieFile ( const ofFile &file ) {
+    string ext = file.getExtension();
+    ofLogNotice() << ext << ( ext != "mov" && ext != "mp4" && ext != "avi" && ext != "ogg" ? "is not a movie" : "is a movie" );
+    return ext != "mov" && ext != "mp4" && ext != "avi" && ext != "ogg";
 }
 
 // ofApp
@@ -111,6 +118,18 @@ void ofApp::update () {
                 break;
             }
         }
+        // Check the age of the lock file
+        if ( hasLockFile ) {
+            Poco::Timestamp::TimeDiff timeSinceCreated = ofFile( ofToString( SELFIES_DISPLAY_VIDEO_DIR ) + "lock" ).getPocoFile().getLastModified().elapsed();
+            if ( timeSinceCreated > 10000 * 10 ) {
+                hasLockFile = false;
+                ofLogNotice() << "Ignoring log file, to old: " << ofToString( timeSinceCreated );
+            }
+        }
+        
+        // Filter any video what are not movie files
+        incomingVideoFiles.erase( remove_if( incomingVideoFiles.begin(), incomingVideoFiles.end(), isNotMovieFile ), incomingVideoFiles.end() );
+
         if ( !hasLockFile ) {
             // Find if any files have changed
             vector<ofFile> differentFiles;
