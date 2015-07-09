@@ -11,7 +11,7 @@
 #ifdef TARGET_OSX
     #define SELFIES_CAPTURE_THROTTLE_SEC 0.3f
 #else
-    #define SELFIES_CAPTURE_THROTTLE_SEC 1.3f
+    #define SELFIES_CAPTURE_THROTTLE_SEC 2.0f
 #endif
 #define SELFIES_CAPTURE_DIGIT_IMAGE "CounterDigits.png"
 #define SELFIES_CAPTURE_SAVING_IMAGE "Saving.png"
