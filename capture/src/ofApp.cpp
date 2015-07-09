@@ -130,7 +130,7 @@ void ofApp::update () {
         shouldCreateRecording = true;
     }
     static float lastLedUpdateTime = 0.0f;
-    if ( ofGetElapsedTimef() - lastLedUpdateTime > 500 ) {
+    if ( ofGetElapsedTimef() - lastLedUpdateTime > 0.5f ) {
         ofLogVerbose() << frameCounter > SELFIES_MIN_FRAME_COUNT  ? "high" : "low" ;
         digitalWrite( SELFIES_BUTTON_LED_PYS_PIN, frameCounter > SELFIES_MIN_FRAME_COUNT );
         lastLedUpdateTime = ofGetElapsedTimef();
