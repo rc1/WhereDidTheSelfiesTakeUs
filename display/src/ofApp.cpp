@@ -208,7 +208,9 @@ void ofApp::update () {
         incomingVideoFiles.erase( remove_if( incomingVideoFiles.begin(), incomingVideoFiles.end(), isNotMovieFile ), incomingVideoFiles.end() );
         
         // Only keep the 50 newest
-        incomingVideoFiles.resize( MAX_VIDEOS );
+        if ( incomingVideoFiles.size() > MAX_VIDEOS ) {
+            incomingVideoFiles.resize( MAX_VIDEOS );
+        }
         
         if ( !hasLockFile ) {
             // Find if any files have changed
