@@ -48,8 +48,6 @@ inline string getPreviousFilenameInFiles( const vector<ofFile> &files, const str
 }
 
 inline void playVideo( ofApp &app, string filename ) {
-    ofLogNotice() << "Next Up Video: " << filename;
-    ofLogNotice() << "Will load: " << ofToDataPath( SELFIES_DISPLAY_VIDEO_DIR + filename );
     app.nextUpVideoPath = ofToDataPath( SELFIES_DISPLAY_VIDEO_DIR + filename );
     app.currentVideoFilename = filename;
 }
@@ -80,6 +78,12 @@ void ofApp::setup () {
     newVideoImage.loadImage( SELFIES_CAPTURE_NEW_VIDEO_IMAGE );
     
     ofSetBackgroundColor( 0 );
+    
+    ofSetFrameRate( 15 );
+    
+#ifdef TARGET_LINUX_ARM
+    ofHideCursor();
+#endif
 
     ofLogNotice() << "Setup Complete";
 }
@@ -113,7 +117,6 @@ void ofApp::update () {
         for ( vector<ofFile>::iterator it = incomingVideoFiles.begin(); it != incomingVideoFiles.end(); ++it ) {
             // ofLogNotice() << "Incoming file: " << it->getFileName();
             if ( it->getFileName() == "lock" ) {
-                ofLogNotice() << "Has lock file";
                 hasLockFile = true;
                 break;
             }
@@ -145,7 +148,6 @@ void ofApp::update () {
     // If the current file is finished, queue the next filename
     else {
         
-        //ofLogNotice() << "Video is " << ( activeVideoPlayer->getIsMovieDone()?"done":"not done" ) << " on frame " << ofToString( activeVideoPlayer->getCurrentFrame() ) << " / " << ofToString( activeVideoPlayer->ofBaseVideoPlayer::getTotalNumFrames() ) << " duration is: " << activeVideoPlayer->getDuration();
         if ( activeVideoPlayer->getIsMovieDone() && videoFiles.size() > 0 && !isLoadingNewVideo ) {
             if ( newVideoDisplayCount == 0 ) {
                 playVideo( *this, getNextFilenameInFiles( videoFiles, currentVideoFilename ) );
@@ -175,12 +177,10 @@ void ofApp::update () {
     if ( nextUpVideoPath != "" ) {
         ofLogNotice() << "Actioning the loading of: " << nextUpVideoPath;
         if ( !isLoadingNewVideo ) {
-            ofLogNotice() << "not loading";
             activeVideoPlayer->stop();
             inactiveVideoPlayer->loadMovie( nextUpVideoPath );
             isLoadingNewVideo = true;
         } else if ( inactiveVideoPlayer->isLoaded() ) {
-            ofLogNotice() << "is loaded";
             activeVideoPlayer->close();
             inactiveVideoPlayer->play();
             // Swap pointer
@@ -190,23 +190,17 @@ void ofApp::update () {
             isLoadingNewVideo = false;
             nextUpVideoPath = "";
         }
-        else {
-            ofLogNotice() << "Don't know what to do";
-        }
     }
 }
 
 void ofApp::draw () {
     ofClear( ofColor::black );
     
-    ofPushMatrix();
-    // Draw the video scaled to fit the window
-    ofTranslate( ofGetWidth() / 2.0f, ofGetHeight() / 2.0f );
-    float scaleToFitRatio = scaleToBoundsRatio( activeVideoPlayer->getWidth(), activeVideoPlayer->getHeight(), ofGetWidth(), ofGetHeight() );
-    ofScale( scaleToFitRatio, scaleToFitRatio, 1.0f );
-    ofTranslate( -activeVideoPlayer->getWidth() / 2.0f, -activeVideoPlayer->getHeight() / 2.0f );
-    activeVideoPlayer->draw( 0, 0 );
-    ofPopMatrix();
+    ofRectangle windowRectangle( 0, 0, ofGetWidth(), ofGetHeight() );
+    ofRectangle videoRectangle( 0, 0, activeVideoPlayer->getWidth(), activeVideoPlayer->getHeight() );
+    windowRectangle.scaleTo( windowRectangle, OF_SCALEMODE_FILL );
+
+    activeVideoPlayer->draw( windowRectangle );
     
     if ( newVideoDisplayCount > 0 ) {
         newVideoImage.draw( 20, 20 );

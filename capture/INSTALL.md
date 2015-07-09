@@ -25,6 +25,12 @@ This needs to be called "Overlay.mov" and placed in the capture apps data folder
 
     apt-get install gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-plugins-base gstreamer1.0-plugins-bad gstreamer1.0-omx gstreamer1.0-tools
 
+## ofxOMXPlayer
+
+This needs to be copied to `$OF/addons/ofxOMXPlayer`
+
+## WiringPi
+
 Wiring Pi is also needed. See [this](http://openframeworks.cc/setup/raspberrypi/Raspberry-Pi-Using-the-GPIO-pins-with-Wiring-Pi-and-openFrameworks.html)
 
 Or:
