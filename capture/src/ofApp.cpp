@@ -146,7 +146,7 @@ void ofApp::draw () {
     ofScale( -1, 1, 1 );
     ofTranslate( -ofGetWidth(), 0 );
 #ifdef TARGET_LINUX_ARM
-    videoGrabber.draw( grabberRectangle );
+    videoGrabber.getTextureReference().draw( grabberRectangle.getX(), grabberRectangle.getY(), grabberRectangle.getWidth(), grabberRectangle.getHeight() );
 #else
     videoGrabber.draw( grabberRectangle );
 #endif
