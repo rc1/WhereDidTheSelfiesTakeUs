@@ -67,7 +67,7 @@ inline bool videoPlayerIsLoaded ( ofVideoPlayer &videoPlayer ) {
 }
 #else
 inline bool videoPlayerIsLoaded ( ofxOMXPlayer &videoPlayer ) {
-    return videoPlayer.isOpen;
+    return videoPlayer.getIsOpen();
 }
 #endif
 
@@ -108,7 +108,7 @@ inline void stopVideoPlayer ( ofVideoPlayer &videoPlayer ) {
 }
 #else
 inline void stopVideoPlayer ( ofxOMXPlayer &videoPlayer ) {
-    videoPlayer.setIsPause( true );
+    videoPlayer.setPaused( true );
 }
 #endif
 
