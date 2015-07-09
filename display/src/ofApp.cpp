@@ -67,7 +67,7 @@ inline bool videoPlayerIsLoaded ( ofVideoPlayer &videoPlayer ) {
 }
 #else
 inline bool videoPlayerIsLoaded ( ofxOMXPlayer &videoPlayer ) {
-    return videoPlayer.isOpen();
+    return videoPlayer.isOpen;
 }
 #endif
 
@@ -98,7 +98,7 @@ inline void playVideoPlayer ( ofVideoPlayer &videoPlayer ) {
 }
 #else
 inline void playVideoPlayer ( ofxOMXPlayer &videoPlayer ) {
-    videoPlayer.setIsPause( false );
+    videoPlayer.setPaused( false );
 }
 #endif
 
@@ -269,7 +269,7 @@ void ofApp::draw () {
     ofRectangle videoRectangle( 0, 0, activeVideoPlayer->getWidth(), activeVideoPlayer->getHeight() );
     windowRectangle.scaleTo( windowRectangle, OF_SCALEMODE_FILL );
 
-    activeVideoPlayer->draw( windowRectangle );
+    activeVideoPlayer->draw( windowRectangle.getX(), windowRectangle.getY(), windowRectangle.getWidth(), windowRectangle.getHeight() );
     
     if ( newVideoDisplayCount > 0 ) {
         newVideoImage.draw( 20, 20 );
