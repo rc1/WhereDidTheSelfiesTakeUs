@@ -21,6 +21,7 @@ gst-launch-1.0 multifilesrc location="$DATA_PATH/captures/$SEQUENCE_ID-%d.png" i
 
 # Remove any zero byte files (including lock file)
 find $TARGET_DIR -type f -size 0 -not -path '*/\.*' | xargs rm
+rm "$TARGET_DIR/lock"
 
 # Remove the captures
-rm $DATA_PATH/captures/$SEQUENCE_ID-*.png
+rm "$DATA_PATHcaptures/\*.png"
