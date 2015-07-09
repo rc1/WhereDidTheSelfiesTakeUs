@@ -1,3 +1,6 @@
 [submodule "addons/ofxRPiCameraVideoGrabber"]
 	path = addons/ofxRPiCameraVideoGrabber
 	url = https://github.com/jvcleave/ofxRPiCameraVideoGrabber.git
+[submodule "addons/ofxOMXPlayer"]
+	path = addons/ofxOMXPlayer
+	url = https://github.com/jvcleave/ofxOMXPlayer.git

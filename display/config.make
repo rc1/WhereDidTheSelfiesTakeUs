@@ -38,6 +38,7 @@
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
 # PROJECT_EXTERNAL_SOURCE_PATHS = ../addons/ofxRPiCameraVideoGrabber/src/
+# PROJECT_EXTERNAL_SOURCE_PATHS = ../addons/ofxOMXPlayer/src/
 
 ################################################################################
 # PROJECT EXCLUSIONS
