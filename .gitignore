@@ -1,6 +1,25 @@
 obj
 *.xcuserstate
 
+SelfiesOSX/bin/*
+
+!SelfiesOSX/bin/data
+SelfiesOSX/bin/data/*
+!SelfiesOSX/bin/data/.gitkeep
+
+!SelfiesOSX/bin/data/scripts
+!SelfiesOSX/bin/data/scripts/.gitkeep
+
+!SelfiesOSX/bin/data/sprites
+!SelfiesOSX/bin/data/sprites/.gitkeep
+
+!capture/bin/data/CounterDigits.png
+!script-gst-pipeline-mac.sh
+!script-gst-pipeline-rpi.sh
+!capture/bin/data/captures
+capture/bin/data/captures/*
+!capture/bin/data/captures/.gitkeep
+
 capture/bin/*
 !capture/bin/data
 capture/bin/data/*

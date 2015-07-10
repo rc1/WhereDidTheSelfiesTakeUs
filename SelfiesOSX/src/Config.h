@@ -1,0 +1,21 @@
+#pragma once
+
+// Config
+// ======
+
+// Display
+// -------
+#define SELFIES_DISPLAY_WIDTH 1280
+#define SELFIES_DISPLAY_HEIGHT 720
+
+// Capture
+// -------
+#define SELFIES_CAPTURE_WIDTH 800*2
+#define SELFIES_CAPTURE_HEIGHT 480*2
+#define SELFIES_CAPTURE_DISPLAY_WIDTH 800
+#define SELFIES_CAPTURE_DISPLAY_HEIGHT 480
+#define SELFIES_CAPTURE_THROTTLE_SEC 1.2f
+#define SELFIES_CAPTURE_DIGIT_IMAGE "sprites/CounterDigits.png"
+#define SELFIES_CAPTURE_SAVING_IMAGE "sprites/Saving.png"
+#define SELFIES_CAPTURE_OVERLAY_VIDEO "animation/Overlay.mov"
+#define SELFIES_CAPTURE_MIN_FRAME_COUNT 15
