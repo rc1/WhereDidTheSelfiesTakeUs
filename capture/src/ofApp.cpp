@@ -234,6 +234,7 @@ void ofApp::draw () {
 #endif
         
         videoPlayer.nextFrame();
+        ofLogNotice() << "Current frame is: " << videoPlayer.getCurrentFrame();
         if ( videoPlayer.getCurrentFrame() == -1 ) {
             videoPlayer.setFrame( 0 );
         }
