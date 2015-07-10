@@ -90,7 +90,7 @@ void ofApp::setup () {
         ofLogNotice() << "Could not read last frame number";
     }
 #ifdef TARGET_LINUX_ARM
-    ofPtr<ofBaseVideoPlayer> sharedPlayer =videoPlayerA.getPlayer();
+    ofPtr<ofBaseVideoPlayer> sharedPlayer =videoPlayer.getPlayer();
     ofGstVideoPlayer *player = (ofGstVideoPlayer *) &sharedPlayer;
     player->setFrameByFrame( true );
 #endif
