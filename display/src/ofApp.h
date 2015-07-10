@@ -27,6 +27,7 @@ class ofApp : public ofBaseApp {
     ofxOMXPlayer videoPlayerB;
     ofxOMXPlayer *activeVideoPlayer;
     ofxOMXPlayer *inactiveVideoPlayer;
+    ofxOMXPlayerSettings playerSettings;
 #endif
     bool isLoadingNewVideo;
     

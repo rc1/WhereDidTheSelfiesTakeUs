@@ -6,7 +6,7 @@
 
 // Config
 // ======
-#define MAX_VIDEOS 50
+#define MAX_VIDEOS 100
 #define SELFIES_DISPLAY_HEIGHT 1366
 #define SELFIES_DISPLAY_WIDTH 768
 #define SELFIES_DISPLAY_VIDEO_DIR "./videos/"
@@ -62,7 +62,6 @@ inline void playVideo( ofApp &app, string filename ) {
 
 bool isNotMovieFile ( const ofFile &file ) {
     string ext = file.getExtension();
-    ofLogNotice() << ext << ( ext != "mov" && ext != "mp4" && ext != "avi" && ext != "ogg" ? "is not a movie" : "is a movie" );
     return ext != "mov" && ext != "mp4" && ext != "avi" && ext != "ogg";
 }
 
@@ -85,7 +84,20 @@ inline bool videoPlayerIsDone ( ofVideoPlayer &videoPlayer ) {
     return videoPlayer.getIsMovieDone();
 }
 #else
-inline bool videoPlayerIsDone ( ofxOMXPlayer &videoPlayer ) {
+bool videoPlayerIsDone ( ofxOMXPlayer &videoPlayer, ofApp *app ) {
+    static int frameNumberCounter = 0;
+    static int lastFrameNumber = 0;
+    ofLogNotice() << ofToString(frameNumberCounter) << " " << ofToString(lastFrameNumber) << " " << ofToString(videoPlayer.getCurrentFrame());
+    if ( lastFrameNumber == videoPlayer.getCurrentFrame() ) {
+        if ( ++frameNumberCounter > 40 ) {
+            ofLogNotice() << "Waited to long for video to advance. Claiming it has finished";
+            frameNumberCounter = 0;
+            app->isLoadingNewVideo = false;
+            return true;
+        }
+    } else {
+        lastFrameNumber = videoPlayer.getCurrentFrame() ;
+    }
     return videoPlayer.getCurrentFrame() == videoPlayer.getTotalNumFrames() - 1;
 }
 #endif
@@ -131,7 +143,6 @@ void ofApp::setup () {
     videoPlayerA.setPlayer( ofPtr<ofGstVideoPlayer>( new ofGstVideoPlayer ) );
     videoPlayerB.setPlayer( ofPtr<ofGstVideoPlayer>( new ofGstVideoPlayer ) );
 #else
-    ofxOMXPlayerSettings playerSettings;
     playerSettings.enableAudio = false;
     playerSettings.enableLooping = false;
     videoPlayerA.setup( playerSettings );
@@ -182,6 +193,7 @@ void ofApp::update () {
         ofDirectory d;
         d.setShowHidden( false );
         d.listDir( SELFIES_DISPLAY_VIDEO_DIR );
+        d.sort();
         vector<ofFile> incomingVideoFiles = d.getFiles();
         
         // Look for lock file
@@ -198,7 +210,7 @@ void ofApp::update () {
         // Check the age of the lock file
         if ( hasLockFile ) {
             Poco::Timestamp::TimeDiff timeSinceCreated = ofFile( ofToString( SELFIES_DISPLAY_VIDEO_DIR ) + "lock" ).getPocoFile().getLastModified().elapsed();
-            if ( timeSinceCreated > 10000 * 10 ) {
+            if ( timeSinceCreated > 100000000 ) {
                 hasLockFile = false;
                 ofLogNotice() << "Ignoring log file, to old: " << ofToString( timeSinceCreated );
             }
@@ -221,13 +233,19 @@ void ofApp::update () {
                 videoFiles = incomingVideoFiles;
                 playVideo( *this, differentFiles.back().getFileName() );
                 newVideoDisplayCount = 3;
+
+                ofLogNotice() << "New Videos Found. Current Play list:";
+                for (  vector<ofFile>::iterator it = videoFiles.begin(); it != videoFiles.end(); ++it ) {
+                    ofLogNotice() << "- " << it->getFileName();
+                }
+                
             }
         }
     }
     // If the current file is finished, queue the next filename
     else {
         
-        if ( videoPlayerIsDone( *activeVideoPlayer ) && videoFiles.size() > 0 && !isLoadingNewVideo ) {
+        if ( videoPlayerIsDone( *activeVideoPlayer, this ) && videoFiles.size() > 0 && !isLoadingNewVideo ) {
             if ( newVideoDisplayCount == 0 ) {
                 playVideo( *this, getNextFilenameInFiles( videoFiles, currentVideoFilename ) );
             }
@@ -252,8 +270,25 @@ void ofApp::update () {
     // Play any videos which have need queued up
     // by first closing the video player, then
     // once it has closed (later) load the next
+    static int actioningLoadCount = 0;
     if ( nextUpVideoPath != "" ) {
+        ++actioningLoadCount;
         ofLogNotice() << "Actioning the loading of: " << nextUpVideoPath;
+        if ( actioningLoadCount > 100 ) {
+            ofLogNotice() << "Recovering! To many attempts to load. Something went wrong. Will load next video";
+            //ofxOMXPlayer *swap = activeVideoPlayer;
+            //activeVideoPlayer = inactiveVideoPlayer;
+            //inactiveVideoPlayer = swap;
+            //playVideo( *this, getNextFilenameInFiles( videoFiles, currentVideoFilename ) );
+            activeVideoPlayer->setup( playerSettings );
+            activeVideoPlayer->loadMovie( ofToDataPath( SELFIES_DISPLAY_VIDEO_DIR + getNextFilenameInFiles( videoFiles, currentVideoFilename ) ) );
+            currentVideoFilename = getNextFilenameInFiles( videoFiles, currentVideoFilename );
+            nextUpVideoPath ="";
+            
+            newVideoDisplayCount = 0;
+            actioningLoadCount = 0;
+            return;
+        }
         if ( !isLoadingNewVideo ) {
             stopVideoPlayer( *activeVideoPlayer );
             inactiveVideoPlayer->loadMovie( nextUpVideoPath );
