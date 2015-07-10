@@ -234,7 +234,7 @@ void ofApp::draw () {
 #endif
         
         videoPlayer.nextFrame();
-        if ( videoPlayer.getCurrentFrame() == -1 )
+        if ( videoPlayer.getCurrentFrame() == -1 ) {
             videoPlayer.setFrame( 0 );
         }
         
