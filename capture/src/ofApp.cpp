@@ -234,6 +234,9 @@ void ofApp::draw () {
 #endif
         
         videoPlayer.nextFrame();
+        if ( videoPlayer.getCurrentFrame() == -1 )
+            videoPlayer.setFrame( 0 );
+        }
         
         // ###ÊCreate Onion Skin Overlay
         onionskin.renderAll();
