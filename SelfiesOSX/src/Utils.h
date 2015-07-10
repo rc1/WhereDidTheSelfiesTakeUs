@@ -1,6 +1,7 @@
 #pragma once
 #include "ofMain.h"
 #include "Config.h"
+#include "Display.h"
 
 namespace Utils {
     
@@ -30,6 +31,52 @@ namespace Utils {
         }
         ofPopMatrix();
     }
-
+    
+    
+    // Expires
+    // =======
+    class Expires {
+    public:
+        Expires():ttl(1.0f) { time=0; };
+        Expires(float ttl):ttl(ttl) { time=0; };
+        bool hasExpired() { return ofGetElapsedTimef() - time > ttl; };
+        void reset() { time=ofGetElapsedTimef(); }
+        bool resetIfExpired() { if ( hasExpired() ) { reset(); return true; } return false; }
+    private:
+        float ttl;
+        float time;
+    };
+    
+    inline string getNextFilenameInFiles( const vector<ofFile> &files, const string currentFilename ) {
+        if ( files.size() == 0 ) { return ""; }
+        int idx = 0;
+        for ( ; idx < files.size(); ++idx ) {
+            if ( files[ idx ].getFileName() == currentFilename ) {
+                break;
+            }
+        }
+        return files[ ++idx >= files.size() ? 0 : idx ].getFileName();
+    }
+    
+    inline string getPreviousFilenameInFiles( const vector<ofFile> &files, const string currentFilename ) {
+        if ( files.size() == 0 ) { return ""; }
+        int idx = 0;
+        for ( ; idx < files.size(); ++idx ) {
+            if ( files[ idx ].getFileName() == currentFilename ) {
+                break;
+            }
+        }
+        return files[ --idx < 0 ? files.size()-1 : idx ].getFileName();
+    }
+    
+    inline void playVideo( Display &display, string filename ) {
+        display.nextUpVideoPath = ofToDataPath( getAnimationsPath() + "/" + filename );
+        display.currentVideoFilename = filename;
+    }
+    
+    bool isNotMovieFile ( const ofFile &file ) {
+        string ext = file.getExtension();
+        return ext != "mov" && ext != "mp4" && ext != "avi" && ext != "ogg";
+    }
     
 };

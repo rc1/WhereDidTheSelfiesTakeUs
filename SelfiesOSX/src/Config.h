@@ -5,8 +5,10 @@
 
 // Display
 // -------
-#define SELFIES_DISPLAY_WIDTH 1280
-#define SELFIES_DISPLAY_HEIGHT 720
+#define SELFIES_DISPLAY_WIDTH 1366
+#define SELFIES_DISPLAY_HEIGHT 768
+#define SELFIES_DISPLAY_MAX_VIDEOS 100
+#define SELFIES_DISPLAY_NEW_IMAGE "sprites/NewVideo.png"
 
 // Capture
 // -------

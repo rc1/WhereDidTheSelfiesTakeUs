@@ -1,6 +1,9 @@
 # Installation instructions 
 ## OSX
 
+
+Might need procodecs
+
 This uses gstreamer-1.0 and plugins. They need to be installed with options in order to work. If you have already installed gst-launch-1.0 there is a good chance it won't work.
 
 To install BASE:
@@ -12,6 +15,11 @@ To install GOOD:
 
     brew uninstall --force gst-plugins-good
     brew install gst-plugins-good --with-libpng
+
+To install UGLY:
+
+    brew uninstall gst-plugins-ugly
+    brew install gst-plugins-ugly --with-x264
 
 Note:  
 Options can be found by typing: `brew info [formula]`
