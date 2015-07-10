@@ -24,4 +24,7 @@ find $TARGET_DIR -type f -size 0 -not -path '*/\.*' | xargs rm
 rm "$TARGET_DIR/lock"
 
 # Remove the captures
-rm "$DATA_PATHcaptures/\*.png"
+echo "Attempting to remove PNGS from"
+echo $DATA_PATHcaptures
+rm $DATA_PATH/captures/*.png
+echo "Removed PNG"
