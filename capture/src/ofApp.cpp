@@ -81,10 +81,13 @@ void ofApp::setup () {
     videoPlayer.setLoopState( OF_LOOP_NORMAL );
     
     // Get the last know frame
-    int lastVideoFrameNumber = 0;
+    int lastVideoFrameNumber = 0;
     ofBuffer buffer = ofBufferFromFile( ofToDataPath( "captures/.lastFrame" ) );
     if ( buffer.size() > 0 ) {
         lastVideoFrameNumber = ofToInt( buffer.getText() );
+        ofLogNotice() << "Found last frame number: " << lastVideoFrameNumber;
+    } else {
+        ofLogNotice() << "Could not read last frame number";
     }
     videoPlayer.setFrame( lastVideoFrameNumber );
     
