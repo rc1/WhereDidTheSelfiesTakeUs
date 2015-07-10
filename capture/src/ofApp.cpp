@@ -89,6 +89,12 @@ void ofApp::setup () {
     } else {
         ofLogNotice() << "Could not read last frame number";
     }
+#ifdef TARGET_LINUX_ARM
+    ofPtr<ofBaseVideoPlayer> sharedPlayer =videoPlayerA.getPlayer();
+    ofGstVideoPlayer *player = (ofGstVideoPlayer *) &sharedPlayer;
+    player->setFrameByFrame( true );
+#endif
+    
     videoPlayer.setFrame( lastVideoFrameNumber );
     
     onionskin.init( onionSkinSettings );
