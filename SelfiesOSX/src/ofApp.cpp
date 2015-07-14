@@ -40,8 +40,6 @@ void ofApp::setup (){
     capture.videoPlayer.setPixelFormat( OF_PIXELS_RGBA );
     capture.videoPlayer.load( SELFIES_CAPTURE_OVERLAY_VIDEO );
     capture.videoPlayer.setLoopState( OF_LOOP_NORMAL );
-    capture.videoPlayer.setFrame( FrameNumber::loadFrameNumber() );
-    ofLogNotice() << "Should have set frame number to: " << FrameNumber::loadFrameNumber();
 
     // Fbo
     // ---
@@ -76,10 +74,23 @@ void ofApp::update () {
     capture.videoGrabber.update();
     capture.videoPlayer.update();
     
+    // Fix for frame settings
+    // ----------------------
+    static bool hasSetInitalFrame = false;
+    if ( ! hasSetInitalFrame  && capture.videoPlayer.isLoaded() ) {
+        capture.videoPlayer.setFrame( FrameNumber::loadFrameNumber() );
+        ofLogNotice() << "Should have set frame number to: " << FrameNumber::loadFrameNumber();
+        hasSetInitalFrame = true;
+    }
+    
+    
+    
     // Display
     // =======
     display.videoPlayerA.update();
     display.videoPlayerB.update();
+    
+    
     
     // Update New Files
     // ----------------
