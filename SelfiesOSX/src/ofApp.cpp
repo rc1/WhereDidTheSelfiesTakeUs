@@ -287,7 +287,6 @@ void ofApp::draw () {
     // -------------
     capture.isSaving = capture.taskRunner.queueSize() > 0;
     
-
     // Camera flash with digits
     // ------------------------
     if ( ofGetElapsedTimef() - lastCaptureTime < SELFIES_CAPTURE_THROTTLE_SEC ) {
@@ -336,8 +335,19 @@ void ofApp::draw () {
         
         // Advance to the next overlay video frame
         int frame = capture.videoPlayer.getCurrentFrame();
-        capture.videoPlayer.setFrame( frame + 2 );
-        ofLogNotice() << "Current frame is: " << capture.videoPlayer.getCurrentFrame();
+        ofLogNotice() << "==== Next Frame =======";
+        ofLogNotice() << "Is movie done: " << ( capture.videoPlayer.getIsMovieDone() ? "done" : "not done" );
+        ofLogNotice() << "Loop state: " << capture.videoPlayer.getLoopState();
+        ofLogNotice() << "Current Frame: " << capture.videoPlayer.getCurrentFrame();
+        ofLogNotice() << "Get Total Number of Frames: " << capture.videoPlayer.getTotalNumFrames();
+        ofLogNotice() << "=======================";
+        
+        if ( capture.videoPlayer.getCurrentFrame() >= capture.videoPlayer.getTotalNumFrames() ) {
+            capture.videoPlayer.setFrame( 0 );
+        } else {
+            capture.videoPlayer.setFrame( frame + 2 );
+        }
+        
         
         // Update the onion skins
         capture.onionskin.renderAll();
