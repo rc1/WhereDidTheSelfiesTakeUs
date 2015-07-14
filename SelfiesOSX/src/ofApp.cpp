@@ -12,6 +12,8 @@ static Display display;
 
 void ofApp::setup (){
     ofLogNotice() << "User: " << getenv( "USER" );
+    
+    ofSetFullscreen( true );
 
     // Inital Settings
     // ===============
@@ -143,7 +145,6 @@ void ofApp::update () {
                 ofLogNotice() << "Loading:";
                 ofLogNotice() << differentFiles.back().getFileName();
                 ofLogNotice() << "====================================";
-                
             }
         }
     }
@@ -378,7 +379,7 @@ void ofApp::draw () {
     // ----------------------
     ofPushMatrix();
     {
-        ofTranslate( ofGetWidth()-200, 0 );
+        ofTranslate( SELFIES_CAPTURE_DISPLAY_HEIGHT + SELFIES_DISPLAY_WIDTH - 300, 0 );
         if ( !capture.shouldDrawHUDOnScreen ) {
             ofTranslate( 0, SELFIES_CAPTURE_DISPLAY_HEIGHT );
         }
@@ -421,5 +422,8 @@ void ofApp::keyPressed ( int key ) {
     }
     else if ( key == 'h' ) {
         capture.shouldDrawHUDOnScreen =! capture.shouldDrawHUDOnScreen;
+    }
+    else if ( key == 'f' ) {
+        ofToggleFullscreen();
     }
 }
