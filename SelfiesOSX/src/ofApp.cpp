@@ -96,7 +96,7 @@ void ofApp::update () {
         d.listDir( Utils::getAnimationsPath() );
         d.sort();
         vector<ofFile> incomingVideoFiles = d.getFiles();
-        reverse( incomingVideoFiles.begin(), incomingVideoFiles.end() );
+        // reverse( incomingVideoFiles.begin(), incomingVideoFiles.end() );
         
         // Look for lock file
         // If a file named 'lock' exists the capture app is
@@ -113,10 +113,10 @@ void ofApp::update () {
         // Filter any video what are not movie files
         incomingVideoFiles.erase( remove_if( incomingVideoFiles.begin(), incomingVideoFiles.end(), Utils::isNotMovieFile ), incomingVideoFiles.end() );
         
-        int c = 0;
-        for( vector<ofFile>::iterator it = incomingVideoFiles.begin(); it != incomingVideoFiles.end(); ++it ) {
-            ofLogNotice() << ofToString( ++c ) << " " << it->getFileName();
-        }
+//        int c = 0;
+//        for( vector<ofFile>::iterator it = incomingVideoFiles.begin(); it != incomingVideoFiles.end(); ++it ) {
+//            ofLogNotice() << ofToString( ++c ) << " " << it->getFileName();
+//        }
         
         // Only keep the 50 newest
         if ( incomingVideoFiles.size() > SELFIES_DISPLAY_MAX_VIDEOS ) {
@@ -130,13 +130,17 @@ void ofApp::update () {
             // If they have, take the newest video (by dated filename)
             if ( differentFiles.size() > 0 ) {
                 videoFiles = incomingVideoFiles;
+                ofLogNotice() << "====================================";
+                ofLogNotice() << "New Videos Found. Current Play list:";
                 Utils::playVideo( display, differentFiles.back().getFileName() );
                 display.newVideoDisplayCount = 3;
-                
-                ofLogNotice() << "New Videos Found. Current Play list:";
                 for ( vector<ofFile>::iterator it = videoFiles.begin(); it != videoFiles.end(); ++it ) {
                     ofLogNotice() << "- " << it->getFileName();
                 }
+                ofLogNotice() << "------------------------------------";
+                ofLogNotice() << "Loading:";
+                ofLogNotice() << differentFiles.back().getFileName();
+                ofLogNotice() << "====================================";
                 
             }
         }
