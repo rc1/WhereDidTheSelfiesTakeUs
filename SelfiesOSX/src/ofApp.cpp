@@ -44,6 +44,7 @@ void ofApp::setup (){
     // Fbo
     // ---
     capture.frameFbo.allocate( SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT, GL_RGB );
+    capture.frameFlipFbo.allocate( SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT, GL_RGB );
     
     // Task Runner
     // -----------
@@ -60,7 +61,6 @@ void ofApp::setup (){
     display.activeVideoPlayer = &display.videoPlayerA;
     display.inactiveVideoPlayer = &display.videoPlayerB;
     display.newVideoImage.load( SELFIES_DISPLAY_NEW_IMAGE );
-
 }
 
 void ofApp::exit () {
@@ -119,11 +119,6 @@ void ofApp::update () {
         
         // Filter any video what are not movie files
         incomingVideoFiles.erase( remove_if( incomingVideoFiles.begin(), incomingVideoFiles.end(), Utils::isNotMovieFile ), incomingVideoFiles.end() );
-        
-//        int c = 0;
-//        for( vector<ofFile>::iterator it = incomingVideoFiles.begin(); it != incomingVideoFiles.end(); ++it ) {
-//            ofLogNotice() << ofToString( ++c ) << " " << it->getFileName();
-//        }
         
         // Only keep the 50 newest
         if ( incomingVideoFiles.size() > SELFIES_DISPLAY_MAX_VIDEOS ) {
@@ -327,9 +322,17 @@ void ofApp::draw () {
         capture.onionskin.getCurrentFboPtr()->end();
         
         // Save the image file
+        // -------------------
+        // Draw the frame horizontally flipped
+        capture.frameFlipFbo.begin();
+        {
+            capture.frameFbo.draw( 0, SELFIES_CAPTURE_HEIGHT, SELFIES_CAPTURE_WIDTH, -SELFIES_CAPTURE_HEIGHT );
+        }
+        capture.frameFlipFbo.end();
+        // Save the file
         string capturePath = Utils::getFramesPath() + "/" + ofToString( sequenceStartTime ) + "-" + ofToString( capture.frameCounter++ ) + ".png";
         ofLogNotice() << "Capturing to: " << capturePath;
-        if ( !capture.imageSaver.grabFbo( capturePath, capture.frameFbo ) ) {
+        if ( !capture.imageSaver.grabFbo( capturePath, capture.frameFlipFbo ) ) {
             ofLogError() << "Failed to grab screen. Maybe screen grab buffer is set to low";
         }
         
@@ -348,7 +351,6 @@ void ofApp::draw () {
             capture.videoPlayer.setFrame( frame + 2 );
         }
         
-        
         // Update the onion skins
         capture.onionskin.renderAll();
         capture.onionskin.next();
@@ -357,7 +359,6 @@ void ofApp::draw () {
         lastCaptureTime = ofGetElapsedTimef();
         capture.shouldCaptureFrame = false;
     }
-    
     
     // Saving Overlay
     // --------------
@@ -388,9 +389,6 @@ void ofApp::draw () {
         ofDrawBitmapStringHighlight( "[h] Show this display", ofPoint( 0, 100 ) );
     }
     ofPopMatrix();
-    
-
-
 }
 
 void ofApp::keyPressed ( int key ) {

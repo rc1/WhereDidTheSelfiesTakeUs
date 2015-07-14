@@ -35,4 +35,5 @@ struct Capture {
     OnionSkinRingBufferSettings onionSkinSettings;
     OnionSkinRingBuffer onionskin;
     ofFbo frameFbo;
+    ofFbo frameFlipFbo;
 };
