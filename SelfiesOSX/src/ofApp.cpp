@@ -83,14 +83,10 @@ void ofApp::update () {
         hasSetInitalFrame = true;
     }
     
-    
-    
     // Display
     // =======
     display.videoPlayerA.update();
     display.videoPlayerB.update();
-    
-    
     
     // Update New Files
     // ----------------
@@ -179,8 +175,6 @@ void ofApp::update () {
             }
         }
     }
-    // if the next button had been released
-    // if the previous button has been released
     
     // Play any videos which have need queued up
     // by first closing the video player, then
@@ -212,7 +206,6 @@ void ofApp::update () {
             display.nextUpVideoPath = "";
         }
     }
-
 }
 
 void ofApp::draw () {
@@ -317,9 +310,8 @@ void ofApp::draw () {
         capture.shouldCaptureFrame = false;
     }
     
-    
     // Capture a Frame
-    // -------------
+    // ---------------
     if ( !capture.isSaving && capture.shouldCaptureFrame && ofGetElapsedTimef() - lastCaptureTime > SELFIES_CAPTURE_THROTTLE_SEC ) {
         
         ofLogNotice() << "Capturing Frame";
