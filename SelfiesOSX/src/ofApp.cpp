@@ -14,6 +14,7 @@ void ofApp::setup (){
     ofLogNotice() << "User: " << getenv( "USER" );
     
     ofSetFullscreen( true );
+    ofHideCursor();
 
     // Inital Settings
     // ===============
