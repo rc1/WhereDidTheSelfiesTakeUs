@@ -16,19 +16,14 @@ void ofApp::setup (){
 
     // Inital Settings
     // ===============
-    ofSetFullscreen( true );
+    // ofSetFullscreen( true );
     ofHideCursor();
-    ofSetDataPathRoot( "../Resources/data/" );
     ofSetBackgroundColor( 0x2A2B2F );
     ofSetLogLevel( OF_LOG_NOTICE );
     
     // Serial
     // ======
-    ofxXmlSettings settingsXml( "settings.xml" );
-    string serialDevice = settingsXml.getValue( "xml:serialDevice", "" );
-    if ( serialDevice != "" ) {
-        serialPort.setup( serialDevice, 9600 );
-    }
+    serialPort.setup( Config::getGlobal().serialDevice, 9600 );
     
     // Capture Setup
     // =============
@@ -36,14 +31,14 @@ void ofApp::setup (){
     // Camera
     // ------
     capture.videoGrabber.setDeviceID( 0 );
-    capture.videoGrabber.initGrabber( SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT );
+    capture.videoGrabber.initGrabber( SELFIES_CAPTURE_TEXTURE_WIDTH, SELFIES_CAPTURE_TEXTURE_HEIGHT );
     
     // Onion Skin
     // ----------
     capture.onionSkinSettings.numberFrames = 2;
     capture.onionSkinSettings.show = 2;
-    capture.onionSkinSettings.width = SELFIES_CAPTURE_WIDTH;
-    capture.onionSkinSettings.height = SELFIES_CAPTURE_HEIGHT;
+    capture.onionSkinSettings.width = SELFIES_CAPTURE_TEXTURE_WIDTH;
+    capture.onionSkinSettings.height = SELFIES_CAPTURE_TEXTURE_HEIGHT;
     capture.onionskin.init( capture.onionSkinSettings );
     
     // Video Player
@@ -54,13 +49,13 @@ void ofApp::setup (){
 
     // Fbo
     // ---
-    capture.frameFbo.allocate( SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT, GL_RGB );
-    capture.frameFlipFbo.allocate( SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT, GL_RGB );
+    capture.frameFbo.allocate( SELFIES_CAPTURE_TEXTURE_WIDTH, SELFIES_CAPTURE_TEXTURE_HEIGHT, GL_RGB );
+    capture.frameFlipFbo.allocate( SELFIES_CAPTURE_TEXTURE_WIDTH, SELFIES_CAPTURE_TEXTURE_HEIGHT, GL_RGB );
     
     // Task Runner
     // -----------
     capture.taskRunner.startThread( true );
-    capture.imageSaver.setup( SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT, 20 );
+    capture.imageSaver.setup( SELFIES_CAPTURE_TEXTURE_WIDTH, SELFIES_CAPTURE_TEXTURE_HEIGHT, 20 );
     
     // Images
     // ------
@@ -255,7 +250,7 @@ void ofApp::draw () {
     // =======
     static int sequenceStartTime = ofGetUnixTime();
     static float lastCaptureTime = -10000.0f;
-    ofRectangle screenRectangle( 0, 0, SELFIES_CAPTURE_WIDTH, SELFIES_CAPTURE_HEIGHT );
+    ofRectangle screenRectangle( 0, 0, SELFIES_CAPTURE_TEXTURE_WIDTH, SELFIES_CAPTURE_TEXTURE_HEIGHT );
     
     // Compose Live Image
     // ------------------
@@ -271,7 +266,7 @@ void ofApp::draw () {
         ofPushMatrix();
         {
             ofScale( -1, 1, 1 );
-            ofTranslate( -SELFIES_CAPTURE_WIDTH, 0 );
+            ofTranslate( -SELFIES_CAPTURE_TEXTURE_WIDTH, 0 );
             // Draw camera
             capture.videoGrabber.draw( grabberRectangle );
         }
@@ -346,7 +341,7 @@ void ofApp::draw () {
         {
             ofClear( 0, 0, 0, 0 );
             ofPushMatrix();
-            ofScale( float( capture.onionskin.settings.width ) / float( SELFIES_CAPTURE_WIDTH ), float( capture.onionskin.settings.height ) / float( SELFIES_CAPTURE_HEIGHT ), 1.0 );
+            ofScale( float( capture.onionskin.settings.width ) / float( SELFIES_CAPTURE_TEXTURE_WIDTH ), float( capture.onionskin.settings.height ) / float( SELFIES_CAPTURE_TEXTURE_HEIGHT ), 1.0 );
             capture.frameFbo.draw( 0, 0 );
             ofPopMatrix();
         }
@@ -357,7 +352,7 @@ void ofApp::draw () {
         // Draw the frame horizontally flipped
         capture.frameFlipFbo.begin();
         {
-            capture.frameFbo.draw( 0, SELFIES_CAPTURE_HEIGHT, SELFIES_CAPTURE_WIDTH, -SELFIES_CAPTURE_HEIGHT );
+            capture.frameFbo.draw( 0, SELFIES_CAPTURE_TEXTURE_HEIGHT, SELFIES_CAPTURE_TEXTURE_WIDTH, -SELFIES_CAPTURE_TEXTURE_HEIGHT );
         }
         capture.frameFlipFbo.end();
         // Save the file

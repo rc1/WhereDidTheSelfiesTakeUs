@@ -57,7 +57,7 @@
 		832BDC407620CDBA568B713D /* tinyxmlerror.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxmlerror.cpp; path = ../../../addons/ofxXmlSettings/libs/tinyxmlerror.cpp; sourceTree = SOURCE_ROOT; };
 		9117AADD1B50554B00B1B580 /* Capture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Capture.h; sourceTree = "<group>"; };
 		9117AADE1B50556500B1B580 /* Display.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Display.h; sourceTree = "<group>"; };
-		911E4ACA1B5689F800295E43 /* settings.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = settings.xml; path = bin/data/settings.xml; sourceTree = "<group>"; };
+		911E4ACA1B5689F800295E43 /* settings.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = settings.xml; path = ../bin/data/settings.xml; sourceTree = "<group>"; };
 		91D5FDBF1B50272700F065F5 /* Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		91D5FDC11B502A4800F065F5 /* ThreadedImageSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadedImageSaver.h; sourceTree = "<group>"; };
 		91D5FDC21B502A4800F065F5 /* ThreadedImageSaver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadedImageSaver.cpp; sourceTree = "<group>"; };
@@ -143,7 +143,6 @@
 		E4B69B4A0A3A1720003C02F2 = {
 			isa = PBXGroup;
 			children = (
-				911E4ACA1B5689F800295E43 /* settings.xml */,
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
 				91D5FDC81B502A6B00F065F5 /* libuv.a */,
@@ -158,6 +157,7 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				911E4ACA1B5689F800295E43 /* settings.xml */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				91D5FDCD1B50306300F065F5 /* Config.h */,
 				91D5FDBF1B50272700F065F5 /* Utils.h */,
