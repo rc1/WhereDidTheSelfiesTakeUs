@@ -1,0 +1,9 @@
+<xml>
+    <serialDevice>tty.usbserial-A6008lql</serialDevice>
+    <maxVideos>300</maxVideos>
+    <minCapturesForRecording>10</minCapturesForRecording>
+    <windowPosition x="0" y="-32" />
+    <displaySize width="1366" height="768" />
+    <captureDisplaySize width="800" height="480" />
+    <captureTextureSize width="1600" height="960" />
+</xml>

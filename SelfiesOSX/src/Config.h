@@ -39,7 +39,7 @@ struct Config {
     ofLogNotice() << "Config: " << #var << ":" << #attr << ofToString((var));
     
     Config() {
-        ofxXmlSettings xml( "settings.xml" );
+        ofxXmlSettings xml( "/Users/" + ofToString( getenv( "USER" ) ) + "/Movies/Selfies/Settings/settings.xml" );
         
         string str;
         xml.copyXmlToString( str );
