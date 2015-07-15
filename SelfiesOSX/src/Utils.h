@@ -16,6 +16,10 @@ namespace Utils {
         return "/Users/" + ofToString( getenv( "USER" ) ) + "/Movies/Selfies/Animations";
     }
     
+    string getOverlayPath () {
+        return "/Users/" + ofToString( getenv( "USER" ) ) + "/Movies/Selfies/Overlay/Overlay.mov";
+    }
+    
     // Digits
     // ======
     // Takes an image of digits and draws a number using them

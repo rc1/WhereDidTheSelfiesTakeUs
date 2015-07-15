@@ -41,7 +41,7 @@ void ofApp::setup (){
     // Video Player
     // ------------
     capture.videoPlayer.setPixelFormat( OF_PIXELS_RGBA );
-    capture.videoPlayer.load( SELFIES_CAPTURE_OVERLAY_VIDEO );
+    capture.videoPlayer.load( Utils::getOverlayPath() );
     capture.videoPlayer.setLoopState( OF_LOOP_NORMAL );
 
     // Fbo
