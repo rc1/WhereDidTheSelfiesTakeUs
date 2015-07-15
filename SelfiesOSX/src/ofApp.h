@@ -9,4 +9,5 @@ class ofApp : public ofBaseApp{
     void draw ();
     void exit ();
     void keyPressed( int key );
+    ofSerial serialPort;
 };

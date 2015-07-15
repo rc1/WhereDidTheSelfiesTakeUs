@@ -20,4 +20,4 @@
 #define SELFIES_CAPTURE_DIGIT_IMAGE "sprites/CounterDigits.png"
 #define SELFIES_CAPTURE_SAVING_IMAGE "sprites/Saving.png"
 #define SELFIES_CAPTURE_OVERLAY_VIDEO "animation/Overlay.mov"
-#define SELFIES_CAPTURE_MIN_FRAME_COUNT 15
+#define SELFIES_CAPTURE_MIN_FRAME_COUNT 10

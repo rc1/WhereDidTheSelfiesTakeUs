@@ -6,21 +6,29 @@
 #include "OnionSkinRingBuffer.h"
 #include "Capture.h"
 #include "Display.h"
+#include "ofxXmlSettings.h"
 
 static Capture capture;
 static Display display;
 
 void ofApp::setup (){
     ofLogNotice() << "User: " << getenv( "USER" );
-    
-    ofSetFullscreen( true );
-    ofHideCursor();
 
     // Inital Settings
     // ===============
+    ofSetFullscreen( true );
+    ofHideCursor();
     ofSetDataPathRoot( "../Resources/data/" );
     ofSetBackgroundColor( 0x2A2B2F );
     ofSetLogLevel( OF_LOG_NOTICE );
+    
+    // Serial
+    // ======
+    ofxXmlSettings settingsXml( "settings.xml" );
+    string serialDevice = settingsXml.getValue( "xml:serialDevice", "" );
+    if ( serialDevice != "" ) {
+        serialPort.setup( serialDevice, 9600 );
+    }
     
     // Capture Setup
     // =============
@@ -71,6 +79,27 @@ void ofApp::exit () {
 }
 
 void ofApp::update () {
+    
+    // Serial/Buttons/Led
+    // ==================
+    
+    // Read Serial
+    // -----------
+    int incomming = serialPort.readByte();
+    if ( incomming == '2' ) {
+        capture.shouldCreateRecording = true;
+    }
+    else if ( incomming == '1' ) {
+        capture.shouldCaptureFrame = true;
+    }
+    
+    // Write Serial
+    // ------------
+    static Utils::Expires updateLedTimer( 1.0f );
+    if ( updateLedTimer.hasExpired() ) {
+        serialPort.writeByte( capture.frameCounter > SELFIES_CAPTURE_MIN_FRAME_COUNT ? '1' :  '0' );
+        updateLedTimer.reset();
+    }
     
     // Capture
     // =======
